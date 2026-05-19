@@ -49,6 +49,10 @@ body{font-family:var(--fb);background:var(--cream);color:var(--td);min-height:10
 select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23639922' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer;}
 textarea.inp{resize:none;min-height:72px;font-size:15px;}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.civ-opt{display:flex;align-items:center;padding:10px 12px;font-family:var(--fb);font-size:15px;color:var(--td);cursor:pointer;border-bottom:1px solid var(--cdk);line-height:1.4;transition:background .15s;}
+.civ-opt:last-child{border-bottom:none;}
+.civ-opt:hover{background:#f5fced;}
+.civ-opt input[type=checkbox]{width:20px;height:20px;margin-right:4px;accent-color:var(--gd);flex-shrink:0;cursor:pointer;}
 
 /* BUTTONS */
 .btn{width:100%;border:none;padding:16px;border-radius:var(--r);font-family:var(--fb);font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:14px;line-height:1.2;}
@@ -303,15 +307,16 @@ textarea.inp{resize:none;min-height:72px;font-size:15px;}
     <option>Arabic</option><option>Other</option>
   </select>
 
-  <div class="flabel" id="s1cv">Have You Ever Done Any of These? <span class="hint">(optional)</span></div>
-  <select class="inp" id="civ">
-    <option value="">Choose...</option>
-    <option>No — I am just getting started</option>
-    <option>I have voted before</option>
-    <option>I have called or written to an official</option>
-    <option>I have gone to a government meeting</option>
-    <option>I have helped organize my community</option>
-  </select>
+  <div class="flabel" id="s1cv">Have You Ever Done Any of These? <span class="hint">(optional — check all that apply)</span></div>
+  <div id="civ-checks" style="background:var(--white);border:2px solid var(--cdk);border-radius:10px;padding:6px 4px;">
+    <label class="civ-opt"><input type="checkbox" value="Never done any of these — just getting started" onchange="collectCiv()"> &nbsp;No — I am just getting started</label>
+    <label class="civ-opt"><input type="checkbox" value="I have voted before" onchange="collectCiv()"> &nbsp;I have voted before</label>
+    <label class="civ-opt"><input type="checkbox" value="I have called or written to an official" onchange="collectCiv()"> &nbsp;I have called or written to an official</label>
+    <label class="civ-opt"><input type="checkbox" value="I have gone to a government meeting" onchange="collectCiv()"> &nbsp;I have gone to a government meeting</label>
+    <label class="civ-opt"><input type="checkbox" value="I have signed a petition" onchange="collectCiv()"> &nbsp;I have signed a petition</label>
+    <label class="civ-opt"><input type="checkbox" value="I have protested or marched" onchange="collectCiv()"> &nbsp;I have protested or marched</label>
+    <label class="civ-opt"><input type="checkbox" value="I have helped organize my community" onchange="collectCiv()"> &nbsp;I have helped organize my community</label>
+  </div>
 
   <button class="btn btn-green" id="s1nx" onclick="go(2)" disabled>Continue →</button>
 </div>
@@ -556,60 +561,121 @@ const ISS=[
 // DEPTH QUESTIONS — plain language, issue-specific
 // ══════════════════════════════════════════════
 const DQ={
+  // HOUSING sub-issues
+  'Facing eviction or being pushed out':[
+    {q:'Have you received any official papers — like an eviction notice?',hint:'An eviction notice is a paper from your landlord or a court saying you must leave.',opts:['Yes — I have a notice right now','Yes — I got one before','No — not yet','I got papers but I am not sure what they mean']},
+    {q:'Do you have a signed lease or rental agreement?',hint:'A lease is a paper you signed when you moved in.',opts:['Yes — I have a signed lease','No — nothing was ever signed','We agreed verbally — nothing on paper','I am not sure']},
+    {q:'How soon do you need help?',opts:['Right away — I could lose my home very soon','Within the next few weeks','I have some time but want to prepare','I am not sure']},
+    {q:'Are children living in the home?',opts:['Yes — young children','Yes — teenagers','No children','Yes — a mix of ages']}
+  ],
+  'Rent went up too much':[
+    {q:'How much did your rent go up?',opts:['A little — under $100 more per month','A lot — $100 to $300 more','A huge amount — over $300 more','I have not been told yet but I am worried']},
+    {q:'Did your landlord give you written notice of the increase?',opts:['Yes — I got written notice','No — they just told me','I got a notice but do not understand it','Not yet']},
+    {q:'Can you afford the new rent?',opts:['No — I cannot afford it','It will be very tight','Maybe — I am not sure yet','No and I am already behind on rent']},
+    {q:'How long have you lived there?',opts:['Less than a year','1 to 3 years','3 to 5 years','More than 5 years']}
+  ],
+  'Home is unsafe or broken':[
+    {q:'What is the main problem with your home?',opts:['No heat or no hot water','Mold or water damage','Broken locks or no security','Pests like mice or roaches','Lead paint or lead pipes','Structural damage — ceiling, walls, floors','Something else']},
+    {q:'Have you told your landlord about this?',opts:['Yes — many times and nothing happened','Yes — once and they ignored me','No — I was afraid to','No — I did not know I could']},
+    {q:'Is this affecting your health or your children?',opts:['Yes — we are getting sick','We think it might be','Not yet but we are worried','No']},
+    {q:'How long has this been going on?',opts:['Just started','A few weeks','Several months','Over a year']}
+  ],
+  'Affordable housing shortage':[
+    {q:'What is your current living situation?',opts:['I am renting and need something cheaper','I am staying with family and need my own place','I am currently unhoused','I am about to lose my home and need to find somewhere']},
+    {q:'Do you have children or elderly family members with you?',opts:['Yes — children under 18','Yes — elderly family','Both','No — just me','Just me and my partner']},
+    {q:'Have you applied for housing assistance or Section 8 before?',hint:'Section 8 is a government program that helps pay your rent.',opts:['Yes — and I am on a waiting list','Yes — but I was turned down','No — I did not know how','No — I did not think I would qualify']},
+    {q:'What is your biggest barrier to finding housing?',opts:['I cannot afford first and last month rent','I have an eviction on my record','My income is too low','I do not have enough documents','Language barrier','Credit history issues']}
+  ],
+
+  // JOBS sub-issues — properly branched
+  'I can't find work':[
+    {q:'Are you currently working at all?',opts:['No — I have no job right now','I work part time but need more','I do gig work (Uber, delivery, etc.) but need stable work','I just lost my job']},
+    {q:'What type of work are you looking for?',opts:['Construction or trades','Food service or restaurant','Cleaning or home care','Retail or store work','Office or administrative','Healthcare or childcare','Transportation','I am open to anything']},
+    {q:'What is the biggest thing stopping you from finding work?',opts:['I do not have the right documents or work permit','I do not speak enough English','I do not have a car or transportation','I do not have childcare','I need job training or new skills','I have been rejected many times and do not know why','Criminal record is a barrier']},
+    {q:'Do you have a work permit or authorization to work in the US?',hint:'It is okay to answer honestly — this helps us give you the right resources.',opts:['Yes — I am a US citizen','Yes — I have a green card or work visa','I have a work permit (like DACA)','I am not sure what I have','I do not have work authorization right now','Prefer not to say']}
+  ],
+  'My boss did not pay me what I'm owed':[
+    {q:'How long ago did this happen?',opts:['It is happening right now','In the past month','A few months ago','More than a year ago']},
+    {q:'Do you still work for this employer?',opts:['Yes — I still work there','No — I already left','I was fired after I complained','I am too afraid to go back']},
+    {q:'How much money do you think you are owed?',opts:['Under $500','$500 to $2,000','$2,000 to $5,000','More than $5,000','I am not sure']},
+    {q:'Did other workers have the same problem?',opts:['Yes — several coworkers','Maybe — I am not sure','No — just me','Yes — this happens to everyone there']}
+  ],
+  'My rights at work are being violated':[
+    {q:'What is happening at work?',opts:['I am being harassed or discriminated against','I was fired unfairly','My employer is not following safety rules','I am being retaliated against for speaking up','I am being forced to work off the clock','Something else']},
+    {q:'Do you still work there?',opts:['Yes — it is still happening','No — I left or was let go','I am afraid to go back','I am on leave right now']},
+    {q:'Have you reported this to anyone?',opts:['No — I did not know how','No — I was afraid of losing my job','Yes — to HR but nothing happened','Yes — to a government agency']},
+    {q:'Are other workers affected?',opts:['Yes — many coworkers','A few coworkers','No — just me','I think so but am not sure']}
+  ],
+  'I want to start or grow a small business':[
+    {q:'Where are you in starting your business?',opts:['I just have an idea — I have not started yet','I have started but I am not yet official','I have a business but need help growing it','I had a business but it closed']},
+    {q:'What type of business?',opts:['Food — restaurant, catering, or food truck','Cleaning or home services','Construction or trades','Childcare or education','Retail store','Online or creative business','Something else']},
+    {q:'What is your biggest challenge right now?',opts:['Getting money or a loan to start','Getting the right permits and licenses','Finding customers','Managing taxes and paperwork','Finding a location','Hiring employees','Marketing and getting the word out']},
+    {q:'Have you ever worked with a small business support organization?',opts:['No — I did not know they existed','No — but I would like to','Yes — but I need more help','Yes — and it helped a lot']}
+  ],
+  'I need job training':[
+    {q:'What kind of training are you looking for?',opts:['A trade or skill — construction, electrical, plumbing, etc.','Computer or technology skills','Healthcare or caregiving certification','English language classes','GED or high school diploma','A specific job certification','I am not sure — I need guidance']},
+    {q:'Are you currently working?',opts:['No — I am unemployed','Yes — but I want a better job','Part time — I need more stability','I do gig work but want something steady']},
+    {q:'Do you have childcare that would allow you to attend training?',opts:['Yes — I have childcare','No — this is a barrier for me','I need childcare help to make this work','Not applicable']},
+    {q:'Have you applied for any training programs before?',opts:['No — I did not know where to look','Yes — I was accepted and completed it','Yes — but I could not finish','Yes — I was turned down']}
+  ],
+
+  // DEFAULT fallback for other sub-issues
   housing:[
     {q:'Do you rent your home or own it?',hint:'This helps us know what rules protect you.',opts:['I rent','I own my home','I stay with family or friends','I have no stable home right now']},
-    {q:'Have you gotten any papers from your landlord or the court?',hint:'Things like an eviction notice or a letter saying you have to leave.',opts:['Yes — I have a notice right now','Yes — I got one before','No','I\'m not sure what I got']},
-    {q:'Do you have a written lease or rental agreement?',hint:'A lease is a paper you signed when you moved in.',opts:['Yes, I have a signed lease','No — nothing was signed','We go month to month','I\'m not sure']},
-    {q:'Are children or elderly family members affected?',opts:['Yes — children are affected','Yes — elderly family members','Both','No','Just me']}
+    {q:'Have you gotten any papers from your landlord or the court?',hint:'Things like an eviction notice or a letter saying you have to leave.',opts:['Yes — I have one right now','Yes — I got one before','No','I am not sure what I got']},
+    {q:'Are children or elderly family members affected?',opts:['Yes — children','Yes — elderly family members','Both','No','Just me']},
+    {q:'How urgent is this situation?',opts:['Very urgent — I need help right away','Soon — within the next month','Not urgent — I want to be prepared','I am not sure']}
   ],
   education:[
-    {q:'How old is the child who needs help?',hint:'Or choose "I am the student" if this is for you.',opts:['Under 5 years old','Elementary school (5–10)','Middle school (11–13)','High school (14–18)','I am the student']},
-    {q:'Does your child have a learning disability or special need?',hint:'Has a doctor or school ever told you this?',opts:['Yes — they have an IEP plan','Yes — they have a 504 plan','I think so but no plan yet','No']},
-    {q:'How has the school responded to the problem?',opts:['They tried to help but it\'s not enough','They ignored us','The school is the problem','I haven\'t talked to them yet']},
-    {q:'Has this caused your child to miss school?',opts:['Yes — a lot','Some days','No','They stopped going to school']}
+    {q:'Who needs help — your child or you?',opts:['My child — elementary school age','My child — middle or high school','Me — I am the student','Multiple children']},
+    {q:'Does your child have an IEP or special education plan?',hint:'An IEP is a special plan the school makes for children who need extra help.',opts:['Yes — they have an IEP','Yes — they have a 504 plan','No — but I think they need one','No']},
+    {q:'How has the school responded so far?',opts:['They tried to help but it is not enough','They ignored us completely','The school is the source of the problem','I have not contacted them yet']},
+    {q:'Has your child missed school because of this?',opts:['Yes — a lot of days','A few days here and there','No — but I am worried','They stopped going to school']}
   ],
   safety:[
-    {q:'Did this happen to you or your family directly?',opts:['Yes — it happened to us','We saw it happen','It happens all the time in our area','I\'m worried it will happen']},
-    {q:'Did you report it to the police?',hint:'It is okay if you didn\'t — there are other options.',opts:['Yes — they helped','Yes — but nothing happened','No — I\'m afraid to call police','No — I didn\'t know who to call','Not relevant to my situation']},
-    {q:'Are young people (under 25) involved or at risk?',opts:['Yes — very much so','A little','No','I\'m not sure']},
+    {q:'Did this happen directly to you or your family?',opts:['Yes — it happened to us','We saw it happen to others','It happens constantly in our neighborhood','I am worried it will happen']},
+    {q:'Did you call the police?',hint:'It is okay if you did not — we have other options too.',opts:['Yes — they helped','Yes — but nothing happened','No — I do not trust calling police','No — I was afraid','Not relevant to my situation']},
+    {q:'Are young people at risk?',opts:['Yes — very much','A little','No','I am not sure']},
     {q:'How long has this been a problem?',opts:['Just recently','A few months','For years','My whole time living here']}
   ],
   transit:[
-    {q:'Do you have a car?',opts:['Yes','No — I depend on the bus or train','No — I walk or bike everywhere','Sometimes I borrow one']},
-    {q:'How does this problem affect your daily life?',opts:['Getting to work or school','Getting to a doctor','Getting food','It is a safety risk — I could get hurt','All of the above']},
-    {q:'Have you reported this to anyone?',opts:['Yes — to the county or city','Yes — multiple times','No — didn\'t know how','No — didn\'t think it would help']},
-    {q:'Are your neighbors dealing with the same problem?',opts:['Yes — many of my neighbors','Some of them','I\'m not sure','Mostly just me']}
+    {q:'Do you have a car?',opts:['Yes','No — I use the bus or train','No — I walk or bike','Sometimes I borrow one']},
+    {q:'How does this affect your daily life?',opts:['Getting to work','Getting kids to school','Getting to a doctor','Getting groceries','It is a safety risk','All of the above']},
+    {q:'Have you reported this problem?',opts:['Yes — to the city or county','Yes — multiple times','No — did not know how','No — did not think it would help']},
+    {q:'Are your neighbors having the same problem?',opts:['Yes — many neighbors','Some of them','I am not sure','Mostly just me']}
   ],
   jobs:[
-    {q:'Are you an employee, a business owner, or looking for work?',opts:['I work for someone else','I own a small business','I am looking for work','I do gig work (Uber, Instacart, etc.)']},
-    {q:'What kind of work do you do or want to do?',opts:['Construction or trades','Food service or restaurant','Cleaning or home care','Retail or store work','Healthcare','Transportation','Something else']},
-    {q:'Is there an urgent legal problem — like unpaid wages or being fired unfairly?',hint:'Wage theft means your boss did not pay you what you earned.',opts:['Yes — I need help now','It happened but is over now','No — it is more of a general problem','I\'m not sure if it is a legal issue']},
-    {q:'How many people are affected by this problem?',opts:['Just me','A few of my coworkers','Many workers','A lot of people in my neighborhood']}
+    {q:'Are you currently working?',opts:['No — I am looking for work','Yes — but I need a better job','I own a small business','I do gig work and need stability']},
+    {q:'What type of work are you in or looking for?',opts:['Construction or trades','Food service','Cleaning or home care','Retail','Healthcare','Transportation','Office work','Something else']},
+    {q:'Is there an urgent legal issue — like unpaid wages?',hint:'Wage theft means your employer did not pay you what you earned.',opts:['Yes — I need legal help now','It happened but is resolved','No — more of a general issue','I am not sure if it is legal']},
+    {q:'How many people are affected?',opts:['Just me','A few coworkers','Many workers','A lot of people in my neighborhood']}
   ],
   environment:[
-    {q:'Where is the problem happening?',opts:['Inside my home (water, air, mold)','Right outside my home','In my neighborhood\'s park or street','At my child\'s school','At my workplace']},
-    {q:'Has anyone in your family had health problems that might be related?',opts:['Yes — a doctor said it is related','We believe it is related','Not yet — but we are worried','No']},
-    {q:'Has this been reported to the government?',opts:['Yes — I reported it','Yes — neighbors reported it','No — I didn\'t know how','Yes — but nothing happened']},
-    {q:'Is this a specific building, park, or street?',opts:['Yes — one specific place','Multiple spots in the neighborhood','The whole area has this problem','I\'m not sure']}
+    {q:'Where is the problem?',opts:['Inside my home — water, air, or mold','Right outside my home','In the neighborhood park or street','At my child school','At my workplace']},
+    {q:'Has anyone had health problems that might be related?',opts:['Yes — a doctor confirmed it','We believe so','Not yet but we are worried','No']},
+    {q:'Has this been reported to the government?',opts:['Yes — I reported it','Yes — neighbors reported it','No — did not know how','Yes — but nothing happened']},
+    {q:'Is this one specific spot or the whole neighborhood?',opts:['One specific place','Multiple spots','The whole area','I am not sure']}
   ],
   health:[
-    {q:'Do you have health insurance right now?',hint:'Health insurance helps pay for doctor visits and medicine.',opts:['Yes — from my job','Yes — Medicaid (government health coverage)','Yes — Medicare (for people 65+)','No — I have no insurance','I\'m not sure what I have']},
-    {q:'Is this something you need help with right away, or is it ongoing?',opts:['I need help right now — it\'s urgent','It\'s been going on for a long time','I can\'t get to a doctor at all','It\'s about mental health or emotions','It\'s about not having enough food']},
-    {q:'Who needs help?',opts:['Me','My child or children','An elderly parent or relative','My whole family','Someone else']},
-    {q:'Have you been told you don\'t qualify for help — but you think you should?',opts:['Yes — I was turned away','Yes — but I gave up','No','I don\'t know what I qualify for']}
+    {q:'Do you have health insurance?',hint:'Health insurance helps cover the cost of doctor visits and medicine.',opts:['Yes — from my job','Yes — Medicaid (free or low-cost government insurance)','Yes — Medicare (for people 65 and older)','No — I have no insurance','I am not sure what I have']},
+    {q:'Is this urgent or ongoing?',opts:['Urgent — I need help right now','It has been going on a long time','I cannot get to a doctor at all','It is about mental health','It is about not having enough food']},
+    {q:'Who needs help?',opts:['Me','My child or children','An elderly parent or family member','My whole family','Someone else']},
+    {q:'Have you been told you do not qualify for help — but you think you should?',opts:['Yes — I was turned away','Yes — but I gave up trying','No','I do not know what I qualify for']}
   ],
   immigration:[
-    {q:'Is this something urgent that needs help right away?',hint:'For example, someone is detained, has a court date, or just got a notice.',opts:['Yes — this is urgent and happening now','Yes — I have a court date coming','It\'s ongoing but not a crisis right now','No — I just want to understand my rights']},
-    {q:'Do you have a lawyer helping you?',opts:['Yes','No — I can\'t afford one','I had one but lost contact','No — I didn\'t know I needed one']},
-    {q:'Are family members also affected?',opts:['Yes — my children','Yes — my spouse or partner','Yes — other family members','No — just me','Prefer not to say']},
-    {q:'What would help you most right now?',opts:['Legal help and a lawyer','Understanding my rights','Help with paperwork or forms','Connecting with others in my situation','Knowing what to do if ICE comes']}
+    {q:'Is this urgent — does someone need help right away?',hint:'For example — someone is detained, has a court date soon, or just received papers.',opts:['Yes — this is happening right now','Yes — there is a court date coming','It is ongoing but not a crisis today','No — I just want to know my rights']},
+    {q:'Do you have a lawyer?',opts:['Yes','No — I cannot afford one','I had one but lost contact','No — I did not know I needed one']},
+    {q:'Are family members also affected?',opts:['Yes — my children','Yes — my spouse or partner','Yes — other family','No — just me','Prefer not to say']},
+    {q:'What would help you most right now?',opts:['A lawyer or legal help','Understanding my rights','Help with forms or paperwork','Connecting with others in my situation','Knowing what to do if ICE comes']}
   ],
   other:[
-    {q:'How long has this been a problem for you?',opts:['Just started recently','A few months','Over a year','Most of my life']},
-    {q:'Who do you think is responsible for fixing this?',opts:['Local government (city or county)','A landlord or business','A neighbor or community member','It\'s a bigger system problem','I\'m not sure']},
-    {q:'Have you tried to do anything about it before?',opts:['No — I didn\'t know how','I talked to neighbors about it','I contacted a government office','I worked with a group or organization','I tried to organize something myself']},
-    {q:'What makes it hardest to take action?',opts:['I don\'t know where to start','Language is a barrier','I\'m worried about my immigration status','I don\'t have time','I don\'t think it will make a difference','I tried before and nothing happened']}
+    {q:'How long has this been a problem?',opts:['Just started recently','A few months','Over a year','Most of my life']},
+    {q:'Who do you think needs to fix this?',opts:['Local government — city or county','A landlord or business','A neighbor or community member','It is a bigger system problem','I am not sure']},
+    {q:'Have you tried to do anything about it before?',opts:['No — I did not know how','I talked to neighbors about it','I contacted a government office','I worked with a group or organization','I tried to organize something myself']},
+    {q:'What makes it hardest to take action?',opts:['I do not know where to start','Language is a barrier','I am worried about my immigration status','I do not have time','I do not think it will make a difference','I tried before and nothing happened']}
   ]
+};
+
 };
 
 // ══════════════════════════════════════════════
@@ -767,6 +833,11 @@ function setLang(l,btn){
 // ══════════════════════════════════════════════
 // VALIDATION
 // ══════════════════════════════════════════════
+function collectCiv(){
+  const boxes = document.querySelectorAll('#civ-checks input[type=checkbox]:checked');
+  S.civ = Array.from(boxes).map(b => b.value).join(', ') || '';
+}
+
 function chkZ(){
   const val = document.getElementById('zip').value;
   S.zip = val;
@@ -945,7 +1016,14 @@ function pickIss(iss,idx){
   subs.forEach(s=>{
     const ch=document.createElement('button');
     ch.className='chip';ch.textContent=s;
-    ch.onclick=()=>{document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));ch.classList.add('on');S.sub=s;};
+    ch.onclick=()=>{
+      document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+      ch.classList.add('on');
+      S.sub = s;
+      // Rebuild depth questions for this specific sub-issue
+      const issObj = ISS.find(i=>i.en===S.main);
+      buildDQ(issObj ? issObj.id : 'other');
+    };
     document.getElementById('chips').appendChild(ch);
   });
   document.getElementById('s2nx').disabled=false;
@@ -969,8 +1047,9 @@ function pickOth(idx){
 // DEPTH QUESTIONS
 // ══════════════════════════════════════════════
 function buildDQ(id){
-  const issId=id||(ISS.find(i=>i.en===S.main)?.id)||'other';
-  const qs=DQ[issId]||DQ.other;
+  // Try sub-issue first (most specific), then issue id, then 'other'
+  const subKey = S.sub || '';
+  const qs = DQ[subKey] || DQ[id] || DQ[(ISS.find(i=>i.en===S.main)?.id)] || DQ.other;
   const c=document.getElementById('dqwrap');
   c.innerHTML=''; S.dq={};
   qs.forEach((q,i)=>{
@@ -1002,7 +1081,7 @@ async function gen(){
   S.inc=document.getElementById('inc').value;
   S.hous=document.getElementById('hous').value;
   S.hl=document.getElementById('hl').value;
-  S.civ=document.getElementById('civ').value;
+  collectCiv(); // collects all checked civic experience boxes
   S.extra=document.getElementById('extra').value.trim();
   S.ph=document.getElementById('ph').value.trim();
   S.em=document.getElementById('em').value.trim();
@@ -1026,10 +1105,16 @@ ${S.officials && S.officials.length > 0 ?
   'Use EXACTLY this verified official data for zip ' + S.zip + ' — do not change any names, phone numbers, or contact details:\n' +
   S.officials.map(o => o.office + ': ' + o.name + (o.party?' ('+o.party+')':'') + ' | Phone: ' + (o.phone||'see website') + ' | Email: ' + (o.email||'see website') + ' | Website: ' + (o.url||'N/A') + ' | Address: ' + (o.address||'N/A')).join('\n')
   :
-  'Google Civic API data unavailable. Use your best knowledge to list ALL elected officials for zip code ' + S.zip + '. Include: both US Senators for that state, the US Representative for that district, state senator, state delegate/representative, county executive or equivalent, and city/county council member. Provide real phone numbers, emails, and addresses for each. If you are not certain of current officeholder name, say so clearly but still provide the office phone number and website.'
+  'IMPORTANT: Provide complete contact information for ALL elected officials for zip code ' + S.zip + '. You MUST include direct phone numbers and contact information for every office — never tell the person to search for it themselves. Include: both US Senators for that state (with direct DC office phones), the US Representative for that zip code district (with both DC and local district office phones), state senator (with state capitol phone), state delegate/representative, county executive or mayor (with direct phone), and city/county council member for their district. If unsure of current name, say so but always provide the office main phone number and website contact form.'
 }
 
-For EACH official: explain their title in plain simple language (example: "Your U.S. Senator — this person works in Washington DC and helps make laws for your whole state"). Show all contact info. Add 1-2 plain-language sentences about their record or position on ${concern}. NEVER tell the person to search for information — give everything they need right here. For EACH official include: their title explained simply (e.g. "Your U.S. Senator — works in Washington DC and makes national laws"), full name, direct phone number, email address, website, and 1–2 plain-language sentences about their record or position on ${concern}. Include ALL of these with complete contact details:
+CRITICAL RULES for this section:
+- NEVER say "find your rep at website.com" or "look up your official at..." — give ALL information directly
+- NEVER leave a phone number blank — every office has a main phone number, provide it
+- NEVER leave an email blank — if no direct email, provide the contact form URL
+- If you are not 100% sure of the current officeholder's name, say "Current officeholder — confirm name at [website]" but STILL give the office phone and address
+- Format each official clearly with their title explained simply, then name, then phone, then email/contact, then address, then 1 sentence about their work on ${concern}
+- Include ALL of these levels: Federal (2 US Senators + 1 US Rep), State (State Senator + State Delegate/Rep), and Local (County Executive/Mayor + City/County Council member) For EACH official include: their title explained simply (e.g. "Your U.S. Senator — works in Washington DC and makes national laws"), full name, direct phone number, email address, website, and 1–2 plain-language sentences about their record or position on ${concern}. Include ALL of these with complete contact details:
 
 1. U.S. Senator Chris Van Hollen (D-MD) — 202-224-4654 | vanhollen.senate.gov/contact | 110 Hart Senate Office Building, Washington DC 20510
 2. U.S. Senator Angela Alsobrooks (D-MD) — 202-224-4654 | alsobrooks.senate.gov | Former PG County Executive
@@ -1516,7 +1601,8 @@ In 90 days, build power: Speak at a public meeting. Help organize one community 
 function restart(){
   S={zip:'',name:'',age:'',gen:'',race:'',inc:'',hous:'',hl:'',civ:'',main:'',sub:'',other:'',dq:{},extra:'',ph:'',em:''};
   selReport='';
-  document.querySelectorAll('input,select,textarea').forEach(el=>el.value='');
+  document.querySelectorAll('input[type=text],input[type=tel],input[type=email],select,textarea').forEach(el=>el.value='');
+  document.querySelectorAll('input[type=checkbox]').forEach(el=>el.checked=false);
   document.getElementById('s1nx').disabled=true;
   document.getElementById('s2nx').disabled=true;
   document.getElementById('subwrap').style.display='none';
