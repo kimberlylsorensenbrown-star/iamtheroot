@@ -540,7 +540,7 @@ const ISS=[
          es:['Rutas de autobús eliminadas','Calles y baches en mal estado','Las aceras son peligrosas','No hay estacionamiento','Tráfico muy peligroso','No hay carriles para bicicletas','Difícil moverse con discapacidad','La calle se inunda con lluvia']}},
   {id:'jobs',icon:'💼',
    en:'Jobs & Small Business',es:'Empleos y Negocios',
-   subs:{en:['I can\'t find work','My boss did not pay me what I\'m owed','My rights at work are being violated','I need job training','I want to start or grow a small business','I can\'t get permits or licenses','I need a loan or money for my business','Wages are too low'],
+   subs:{en:['I can\'t find work',"My boss did not pay me what I'm owed",'My rights at work are being violated','I need job training','I want to start or grow a small business','I can\'t get permits or licenses','I need a loan or money for my business','Wages are too low'],
          es:['No encuentro trabajo','Mi jefe no me pagó lo que me debe','Mis derechos laborales están siendo violados','Necesito capacitación laboral','Quiero iniciar o hacer crecer un negocio','No puedo obtener permisos o licencias','Necesito un préstamo para mi negocio','Los salarios son muy bajos']}},
   {id:'environment',icon:'🌿',
    en:'Environment & Parks',es:'Medio Ambiente y Parques',
@@ -562,25 +562,25 @@ const ISS=[
 // ══════════════════════════════════════════════
 const DQ={
   // HOUSING sub-issues
-  'Facing eviction or being pushed out':[
+  "Facing eviction or being pushed out":[
     {q:'Have you received any official papers — like an eviction notice?',hint:'An eviction notice is a paper from your landlord or a court saying you must leave.',opts:['Yes — I have a notice right now','Yes — I got one before','No — not yet','I got papers but I am not sure what they mean']},
     {q:'Do you have a signed lease or rental agreement?',hint:'A lease is a paper you signed when you moved in.',opts:['Yes — I have a signed lease','No — nothing was ever signed','We agreed verbally — nothing on paper','I am not sure']},
     {q:'How soon do you need help?',opts:['Right away — I could lose my home very soon','Within the next few weeks','I have some time but want to prepare','I am not sure']},
     {q:'Are children living in the home?',opts:['Yes — young children','Yes — teenagers','No children','Yes — a mix of ages']}
   ],
-  'Rent went up too much':[
+  "Rent went up too much":[
     {q:'How much did your rent go up?',opts:['A little — under $100 more per month','A lot — $100 to $300 more','A huge amount — over $300 more','I have not been told yet but I am worried']},
     {q:'Did your landlord give you written notice of the increase?',opts:['Yes — I got written notice','No — they just told me','I got a notice but do not understand it','Not yet']},
     {q:'Can you afford the new rent?',opts:['No — I cannot afford it','It will be very tight','Maybe — I am not sure yet','No and I am already behind on rent']},
     {q:'How long have you lived there?',opts:['Less than a year','1 to 3 years','3 to 5 years','More than 5 years']}
   ],
-  'Home is unsafe or broken':[
+  "Home is unsafe or broken":[
     {q:'What is the main problem with your home?',opts:['No heat or no hot water','Mold or water damage','Broken locks or no security','Pests like mice or roaches','Lead paint or lead pipes','Structural damage — ceiling, walls, floors','Something else']},
     {q:'Have you told your landlord about this?',opts:['Yes — many times and nothing happened','Yes — once and they ignored me','No — I was afraid to','No — I did not know I could']},
     {q:'Is this affecting your health or your children?',opts:['Yes — we are getting sick','We think it might be','Not yet but we are worried','No']},
     {q:'How long has this been going on?',opts:['Just started','A few weeks','Several months','Over a year']}
   ],
-  'Affordable housing shortage':[
+  "Affordable housing shortage":[
     {q:'What is your current living situation?',opts:['I am renting and need something cheaper','I am staying with family and need my own place','I am currently unhoused','I am about to lose my home and need to find somewhere']},
     {q:'Do you have children or elderly family members with you?',opts:['Yes — children under 18','Yes — elderly family','Both','No — just me','Just me and my partner']},
     {q:'Have you applied for housing assistance or Section 8 before?',hint:'Section 8 is a government program that helps pay your rent.',opts:['Yes — and I am on a waiting list','Yes — but I was turned down','No — I did not know how','No — I did not think I would qualify']},
@@ -588,31 +588,31 @@ const DQ={
   ],
 
   // JOBS sub-issues — properly branched
-  'I can't find work':[
+  "I can't find work":[
     {q:'Are you currently working at all?',opts:['No — I have no job right now','I work part time but need more','I do gig work (Uber, delivery, etc.) but need stable work','I just lost my job']},
     {q:'What type of work are you looking for?',opts:['Construction or trades','Food service or restaurant','Cleaning or home care','Retail or store work','Office or administrative','Healthcare or childcare','Transportation','I am open to anything']},
     {q:'What is the biggest thing stopping you from finding work?',opts:['I do not have the right documents or work permit','I do not speak enough English','I do not have a car or transportation','I do not have childcare','I need job training or new skills','I have been rejected many times and do not know why','Criminal record is a barrier']},
     {q:'Do you have a work permit or authorization to work in the US?',hint:'It is okay to answer honestly — this helps us give you the right resources.',opts:['Yes — I am a US citizen','Yes — I have a green card or work visa','I have a work permit (like DACA)','I am not sure what I have','I do not have work authorization right now','Prefer not to say']}
   ],
-  'My boss did not pay me what I'm owed':[
+  "My boss did not pay me what I'm owed":[
     {q:'How long ago did this happen?',opts:['It is happening right now','In the past month','A few months ago','More than a year ago']},
     {q:'Do you still work for this employer?',opts:['Yes — I still work there','No — I already left','I was fired after I complained','I am too afraid to go back']},
     {q:'How much money do you think you are owed?',opts:['Under $500','$500 to $2,000','$2,000 to $5,000','More than $5,000','I am not sure']},
     {q:'Did other workers have the same problem?',opts:['Yes — several coworkers','Maybe — I am not sure','No — just me','Yes — this happens to everyone there']}
   ],
-  'My rights at work are being violated':[
+  "My rights at work are being violated":[
     {q:'What is happening at work?',opts:['I am being harassed or discriminated against','I was fired unfairly','My employer is not following safety rules','I am being retaliated against for speaking up','I am being forced to work off the clock','Something else']},
     {q:'Do you still work there?',opts:['Yes — it is still happening','No — I left or was let go','I am afraid to go back','I am on leave right now']},
     {q:'Have you reported this to anyone?',opts:['No — I did not know how','No — I was afraid of losing my job','Yes — to HR but nothing happened','Yes — to a government agency']},
     {q:'Are other workers affected?',opts:['Yes — many coworkers','A few coworkers','No — just me','I think so but am not sure']}
   ],
-  'I want to start or grow a small business':[
+  "I want to start or grow a small business":[
     {q:'Where are you in starting your business?',opts:['I just have an idea — I have not started yet','I have started but I am not yet official','I have a business but need help growing it','I had a business but it closed']},
     {q:'What type of business?',opts:['Food — restaurant, catering, or food truck','Cleaning or home services','Construction or trades','Childcare or education','Retail store','Online or creative business','Something else']},
     {q:'What is your biggest challenge right now?',opts:['Getting money or a loan to start','Getting the right permits and licenses','Finding customers','Managing taxes and paperwork','Finding a location','Hiring employees','Marketing and getting the word out']},
     {q:'Have you ever worked with a small business support organization?',opts:['No — I did not know they existed','No — but I would like to','Yes — but I need more help','Yes — and it helped a lot']}
   ],
-  'I need job training':[
+  "I need job training":[
     {q:'What kind of training are you looking for?',opts:['A trade or skill — construction, electrical, plumbing, etc.','Computer or technology skills','Healthcare or caregiving certification','English language classes','GED or high school diploma','A specific job certification','I am not sure — I need guidance']},
     {q:'Are you currently working?',opts:['No — I am unemployed','Yes — but I want a better job','Part time — I need more stability','I do gig work but want something steady']},
     {q:'Do you have childcare that would allow you to attend training?',opts:['Yes — I have childcare','No — this is a barrier for me','I need childcare help to make this work','Not applicable']},
@@ -674,8 +674,6 @@ const DQ={
     {q:'Have you tried to do anything about it before?',opts:['No — I did not know how','I talked to neighbors about it','I contacted a government office','I worked with a group or organization','I tried to organize something myself']},
     {q:'What makes it hardest to take action?',opts:['I do not know where to start','Language is a barrier','I am worried about my immigration status','I do not have time','I do not think it will make a difference','I tried before and nothing happened']}
   ]
-};
-
 };
 
 // ══════════════════════════════════════════════
