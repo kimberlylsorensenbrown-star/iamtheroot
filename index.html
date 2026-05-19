@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>I Am the Root | Change Starts Here</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gd:#1a4a08;--gm:#2d7a0f;--gl:#639922;
+  --gold:#D4A017;--goldf:#f0c94a;--red:#CC2200;
+  --cream:#f7f3eb;--cdk:#ede7d9;
+  --td:#1a1a12;--tm:#3d3d2e;--tl:#6b6b55;
+  --white:#fff;
+  --fh:'Playfair Display',Georgia,serif;
+  --fb:'Source Sans 3',sans-serif;
+  --r:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--fb);background:var(--cream);color:var(--td);min-height:100vh;overflow-x:hidden;font-size:16px;}
+
+/* HEADER */
+.hdr{background:var(--gd);padding:14px 18px 10px;text-align:center;position:sticky;top:0;z-index:200;box-shadow:0 2px 14px rgba(0,0,0,.35);}
+.hdr-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:2px;}
+.hdr-name{font-family:var(--fh);color:var(--cream);font-size:20px;font-weight:700;}
+.hdr-tag{font-size:11px;color:var(--goldf);letter-spacing:2.5px;text-transform:uppercase;}
+.lbar{display:flex;justify-content:center;gap:5px;margin-top:8px;}
+.lb{background:transparent;border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.75);padding:4px 11px;border-radius:20px;font-size:12px;cursor:pointer;font-family:var(--fb);font-weight:600;transition:all .2s;}
+.lb.on{background:var(--gold);border-color:var(--gold);color:var(--gd);}
+.pbar{background:rgba(0,0,0,.2);height:4px;}
+.pfill{height:4px;background:var(--gold);transition:width .4s ease;width:0%;}
+
+/* SCREENS */
+.screen{display:none;padding:20px 18px 50px;animation:fu .3s ease;}
+.screen.on{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* TYPE — large, clear, accessible */
+.steplabel{font-family:var(--fb);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gl);margin-bottom:6px;}
+.bigtitle{font-family:var(--fh);font-size:24px;color:var(--td);margin-bottom:6px;line-height:1.2;}
+.explain{font-family:var(--fb);font-size:15px;color:var(--tl);margin-bottom:18px;line-height:1.6;}
+.flabel{font-family:var(--fb);font-size:14px;font-weight:700;color:var(--tm);margin-bottom:6px;margin-top:16px;}
+.flabel .hint{font-weight:400;color:var(--tl);font-size:13px;}
+
+/* INPUTS — big tap targets */
+.inp{width:100%;padding:14px 15px;font-size:16px;font-family:var(--fb);border:2.5px solid var(--cdk);border-radius:var(--r);background:var(--white);color:var(--td);outline:none;transition:border-color .2s;line-height:1.4;}
+.inp:focus{border-color:var(--gm);}
+.inp-zip{font-family:var(--fb);font-size:16px;text-align:left;letter-spacing:normal;}
+select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23639922' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer;}
+textarea.inp{resize:none;min-height:72px;font-size:15px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+/* BUTTONS */
+.btn{width:100%;border:none;padding:16px;border-radius:var(--r);font-family:var(--fb);font-size:16px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:14px;line-height:1.2;}
+.btn-green{background:var(--gd);color:var(--cream);}
+.btn-green:hover{background:var(--gm);}
+.btn-green:disabled{opacity:.35;cursor:not-allowed;}
+.btn-gold{background:var(--gold);color:var(--gd);}
+.btn-gold:hover{background:var(--goldf);}
+.skip{text-align:center;font-family:var(--fb);font-size:13px;color:var(--tl);cursor:pointer;text-decoration:underline;margin-top:10px;display:block;}
+
+/* WELCOME */
+.w-band{background:var(--gd);margin:-20px -18px 22px;padding:30px 22px 26px;text-align:center;}
+.w-band h1{font-family:var(--fh);color:var(--cream);font-size:28px;margin-bottom:10px;line-height:1.2;}
+.w-band p{font-family:var(--fb);color:rgba(255,255,255,.85);font-size:15px;line-height:1.65;max-width:300px;margin:0 auto 18px;}
+.note-box{background:rgba(212,160,23,.13);border-left:4px solid var(--gold);padding:13px 14px;border-radius:0 10px 10px 0;margin-bottom:18px;font-family:var(--fb);font-size:14px;color:var(--tm);line-height:1.6;}
+
+/* ISSUE CARDS */
+.igrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.icard{background:var(--white);border:2.5px solid var(--cdk);border-radius:var(--r);padding:14px 10px;text-align:center;cursor:pointer;transition:all .18s;}
+.icard:hover,.icard:active{border-color:var(--gl);background:#f5fced;}
+.icard.on{border-color:var(--gm);background:#eaf6e0;}
+.icard-other{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:10px;border-style:dashed;border-color:#bbb;}
+.ic-em{font-size:26px;margin-bottom:5px;}
+.ic-txt{font-family:var(--fb);font-size:13px;font-weight:700;color:var(--td);line-height:1.25;}
+
+/* SUB-CHIPS */
+.subwrap{margin-top:14px;background:var(--white);border:2.5px solid var(--gl);border-radius:var(--r);padding:14px;animation:fu .2s ease;display:none;}
+.sub-hd{font-family:var(--fb);font-size:12px;font-weight:700;color:var(--gd);margin-bottom:10px;letter-spacing:.5px;text-transform:uppercase;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{background:var(--cream);border:2px solid var(--cdk);border-radius:20px;padding:7px 13px;font-family:var(--fb);font-size:13px;font-weight:600;color:var(--tm);cursor:pointer;transition:all .18s;line-height:1.2;}
+.chip:hover,.chip:active{border-color:var(--gl);color:var(--gd);}
+.chip.on{background:var(--gd);color:var(--cream);border-color:var(--gd);}
+.other-ta{margin-top:12px;display:none;}
+
+/* DEPTH QUESTIONS */
+.dq-box{background:var(--white);border:1.5px solid var(--cdk);border-radius:var(--r);padding:14px;margin-bottom:11px;}
+.dq-q{font-family:var(--fh);font-size:16px;color:var(--gd);margin-bottom:9px;line-height:1.3;}
+.dq-hint{font-family:var(--fb);font-size:13px;color:var(--tl);margin-bottom:9px;margin-top:-5px;line-height:1.45;}
+
+/* LOADING */
+#scr-load{text-align:center;padding:60px 22px;}
+.spin{width:54px;height:54px;animation:pulse 1.5s ease-in-out infinite;margin:0 auto 20px;display:block;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);opacity:.75;}}
+.load-h{font-family:var(--fh);font-size:22px;color:var(--gd);margin-bottom:8px;}
+.load-p{font-family:var(--fb);font-size:14px;color:var(--tl);line-height:1.65;}
+.ldots::after{content:'';animation:dots 1.5s steps(4,end) infinite;}
+@keyframes dots{0%,20%{content:'';}40%{content:'.';}60%{content:'..';}80%,100%{content:'...'}}
+
+/* RESULTS */
+#scr-res{padding-bottom:50px;}
+.res-band{background:var(--gd);margin:-20px -18px 18px;padding:24px 20px;text-align:center;}
+.res-hi{font-family:var(--fh);color:var(--goldf);font-size:15px;margin-bottom:4px;}
+.res-title{font-family:var(--fh);color:var(--cream);font-size:22px;line-height:1.25;}
+
+/* EXPANDABLE SECTION CARDS */
+.sec-card{background:var(--white);border-radius:var(--r);margin-bottom:11px;border:1.5px solid var(--cdk);overflow:hidden;}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;padding:15px 16px;cursor:pointer;transition:background .15s;gap:10px;-webkit-tap-highlight-color:transparent;}
+.sec-hdr:hover,.sec-hdr:active{background:#f3f9eb;}
+.sec-hdr.open{background:#eaf6e0;border-bottom:1.5px solid var(--cdk);}
+.sec-title{display:flex;align-items:center;gap:10px;font-family:var(--fh);font-size:16px;color:var(--gd);flex:1;line-height:1.3;}
+.sec-ico{font-size:20px;flex-shrink:0;}
+.chev{font-size:12px;color:var(--gl);transition:transform .25s;flex-shrink:0;}
+.chev.open{transform:rotate(180deg);}
+.sec-body{max-height:0;overflow:hidden;transition:max-height .38s ease,padding .25s ease;padding:0 16px;}
+.sec-body.open{max-height:3000px;padding:14px 16px 16px;}
+
+/* ITEM CARDS (officials, orgs) — tappable */
+.item-card{background:var(--cream);border-radius:10px;padding:13px 14px;margin-bottom:9px;border-left:4px solid var(--gl);cursor:pointer;transition:all .18s;-webkit-tap-highlight-color:transparent;}
+.item-card:hover,.item-card:active{border-left-color:var(--gd);background:#eaf6e0;}
+.item-role{font-family:var(--fb);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gl);font-weight:700;margin-bottom:2px;}
+.item-what{font-family:var(--fb);font-size:11px;color:var(--tl);margin-bottom:3px;font-style:italic;}
+.item-name{font-family:var(--fh);font-size:16px;color:var(--td);margin-bottom:5px;}
+.item-contact{font-family:var(--fb);font-size:13px;color:var(--tm);line-height:1.6;}
+.item-contact a{color:var(--gm);text-decoration:none;font-weight:600;}
+.item-tap{font-family:var(--fb);font-size:12px;color:var(--gl);margin-top:6px;font-weight:700;}
+.tag{display:inline-block;background:rgba(45,122,15,.1);color:var(--gm);border-radius:12px;padding:2px 8px;font-family:var(--fb);font-size:11px;margin:2px 2px 0 0;font-weight:600;}
+
+/* EXPANDED PROFILE MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:500;align-items:flex-end;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:var(--cream);border-radius:18px 18px 0 0;width:100%;max-height:85vh;overflow-y:auto;padding:22px 20px 40px;animation:slideup .3s ease;}
+@keyframes slideup{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.modal-close{float:right;font-size:22px;cursor:pointer;color:var(--tl);line-height:1;margin-top:-4px;padding:4px 8px;}
+.modal-title{font-family:var(--fh);font-size:20px;color:var(--gd);margin-bottom:4px;padding-right:36px;}
+.modal-role{font-family:var(--fb);font-size:12px;color:var(--gl);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;}
+.modal-section{margin-bottom:16px;}
+.modal-sh{font-family:var(--fh);font-size:15px;color:var(--gd);margin-bottom:6px;padding-bottom:5px;border-bottom:1.5px solid var(--cdk);}
+.modal-body{font-family:var(--fb);font-size:14px;color:var(--tm);line-height:1.7;}
+.modal-body strong{color:var(--td);}
+.modal-body a{color:var(--gm);font-weight:600;}
+.script-box{background:var(--white);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 14px;font-family:var(--fb);font-size:13px;color:var(--tm);line-height:1.65;margin-top:8px;font-style:italic;}
+
+/* ACTION STEPS */
+.step-row{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;}
+.snum{background:var(--gold);color:var(--gd);min-width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:900;font-size:14px;flex-shrink:0;margin-top:1px;}
+.sbody{font-family:var(--fb);font-size:15px;color:var(--tm);line-height:1.65;}
+.sbody strong{color:var(--td);}
+
+/* RIGHTS PILLS */
+.rpill{background:#f0f7e8;border:2px solid var(--gl);border-radius:10px;padding:12px 14px;margin-bottom:9px;}
+.rpill-name{font-family:var(--fh);font-size:15px;color:var(--gd);margin-bottom:4px;}
+.rpill-body{font-family:var(--fb);font-size:14px;color:var(--tm);line-height:1.6;}
+
+/* COALITION */
+.coal-card{background:#eaf6e0;border:2px solid var(--gl);border-radius:var(--r);padding:16px;margin-bottom:11px;}
+.coal-count{background:var(--gd);color:var(--goldf);border-radius:20px;padding:4px 13px;font-family:var(--fb);font-size:13px;font-weight:700;display:inline-block;margin-bottom:10px;}
+.coal-title{font-family:var(--fh);font-size:17px;color:var(--gd);margin-bottom:6px;}
+.coal-body{font-family:var(--fb);font-size:14px;color:var(--tm);line-height:1.65;margin-bottom:12px;}
+.coal-link{font-family:var(--fb);font-size:14px;color:var(--gm);font-weight:700;cursor:pointer;text-decoration:underline;}
+
+/* REPORT BACK */
+.rep-box{background:var(--gd);border-radius:var(--r);padding:18px;margin-bottom:11px;}
+.rep-title{font-family:var(--fh);font-size:18px;color:var(--goldf);margin-bottom:6px;}
+.rep-sub{font-family:var(--fb);font-size:14px;color:rgba(255,255,255,.8);margin-bottom:14px;line-height:1.6;}
+.ropt{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:9px;padding:12px 14px;cursor:pointer;font-family:var(--fb);font-size:14px;color:var(--cream);transition:all .18s;text-align:left;width:100%;margin-bottom:8px;display:block;line-height:1.4;}
+.ropt:hover,.ropt:active{background:rgba(255,255,255,.22);}
+.ropt.on{background:rgba(212,160,23,.28);border-color:var(--gold);}
+
+/* BADGE */
+.bdg-band{background:var(--gold);margin:-20px -18px 18px;padding:24px 20px;text-align:center;}
+.bdg-band h2{font-family:var(--fh);font-size:24px;color:var(--gd);}
+.bdg-band p{font-family:var(--fb);font-size:14px;color:var(--gd);opacity:.8;margin-top:5px;}
+.bdg-box{text-align:center;padding:20px;background:#fff8e6;border:2.5px solid var(--gold);border-radius:var(--r);margin-bottom:13px;}
+.bdg-big{font-size:60px;display:block;margin-bottom:8px;animation:pop .4s cubic-bezier(.175,.885,.32,1.275);}
+@keyframes pop{from{transform:scale(0);}to{transform:scale(1);}}
+.bdg-name{font-family:var(--fh);font-size:22px;color:var(--gd);}
+.bdg-desc{font-family:var(--fb);font-size:14px;color:var(--tl);margin-top:6px;line-height:1.55;}
+
+.act-row{display:flex;gap:9px;margin-top:16px;}
+.act-btn{flex:1;padding:14px;border-radius:10px;font-family:var(--fb);font-size:14px;font-weight:700;cursor:pointer;border:none;transition:all .2s;}
+.ab-grey{background:var(--cdk);color:var(--td);}
+.ab-dark{background:var(--gd);color:var(--cream);}
+.footer{text-align:center;padding:10px;font-family:var(--fb);font-size:12px;color:var(--tl);}
+</style>
+</head>
+<body>
+
+<!-- MODAL OVERLAY -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal-box" id="modal-box">
+    <span class="modal-close" onclick="closeModal()">✕</span>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-row">
+    <svg width="30" height="30" viewBox="0 0 60 60">
+      <circle cx="30" cy="30" r="4" fill="#f7f3eb"/>
+      <line x1="8" y1="30" x2="46" y2="30" stroke="#CC2200" stroke-width="1.8"/>
+      <polygon points="49,30 44,27.5 44,32.5" fill="#CC2200"/>
+      <line x1="30" y1="30" x2="30" y2="10" stroke="#97C459" stroke-width="2" stroke-linecap="round"/><circle cx="30" cy="9" r="3" fill="#97C459"/>
+      <line x1="30" y1="30" x2="18" y2="14" stroke="#97C459" stroke-width="2" stroke-linecap="round"/><circle cx="17" cy="13" r="3" fill="#97C459"/>
+      <line x1="30" y1="30" x2="42" y2="14" stroke="#97C459" stroke-width="2" stroke-linecap="round"/><circle cx="43" cy="13" r="3" fill="#97C459"/>
+      <line x1="30" y1="30" x2="30" y2="50" stroke="#D4A017" stroke-width="2" stroke-linecap="round"/>
+      <line x1="30" y1="50" x2="25" y2="56" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="30" y1="50" x2="35" y2="56" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="30" y1="30" x2="16" y2="44" stroke="#D4A017" stroke-width="2" stroke-linecap="round"/>
+      <line x1="16" y1="44" x2="10" y2="50" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round"/>
+      <line x1="30" y1="30" x2="44" y2="44" stroke="#D4A017" stroke-width="2" stroke-linecap="round"/>
+      <line x1="44" y1="44" x2="50" y2="50" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <div class="hdr-name">I Am the Root</div>
+  </div>
+  <div class="hdr-tag" id="hdr-tag">Change Starts Here</div>
+  <div class="lbar">
+    <button class="lb on" onclick="setLang('en',this)">English</button>
+    <button class="lb" onclick="setLang('es',this)">Español</button>
+    <button class="lb" onclick="setLang('ot',this)">Other</button>
+  </div>
+</div>
+<div class="pbar"><div class="pfill" id="pbar"></div></div>
+
+<!-- S0 WELCOME -->
+<div class="screen on" id="s0">
+  <div class="w-band">
+    <h1 id="w1">You have the power to change things.</h1>
+    <p id="w2">This free tool shows you who represents you, what rights you have, and simple steps you can take — right in your neighborhood.</p>
+  </div>
+  <div class="note-box" id="w3">🌱 <strong>Takes about 4 minutes.</strong><br>You will get a personal plan — written just for you — with names, phone numbers, and easy steps. No experience needed.</div>
+  <button class="btn btn-gold" onclick="go(1)" id="wb">Let's Start →</button>
+  <p style="text-align:center;font-family:var(--fb);font-size:12px;color:var(--tl);margin-top:10px;" id="wpriv">Your answers are private. We never sell your information.</p>
+</div>
+
+<!-- S1 ABOUT YOU -->
+<div class="screen" id="s1">
+  <div class="steplabel" id="s1a">Step 1 of 4</div>
+  <div class="bigtitle" id="s1b">About You</div>
+  <div class="explain" id="s1c">This helps us find help that is right for your community. Everything is optional — except your zip code.</div>
+
+  <div class="flabel" id="s1z">Your Zip Code <span class="hint">(required)</span></div>
+  <input class="inp inp-zip" type="tel" id="zip" maxlength="5" placeholder="" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'');chkZ()">
+
+  <div class="flabel" id="s1n">Your First Name <span class="hint">(optional)</span></div>
+  <input class="inp" type="text" id="nm" placeholder="First name...">
+
+  <div class="two-col">
+    <div>
+      <div class="flabel" id="s1ag">Your Age</div>
+      <select class="inp" id="age">
+        <option value="">Choose...</option>
+        <option>Under 18</option><option>18–24</option><option>25–34</option>
+        <option>35–44</option><option>45–54</option><option>55–64</option><option>65+</option>
+      </select>
+    </div>
+    <div>
+      <div class="flabel" id="s1g">Gender</div>
+      <select class="inp" id="gen">
+        <option value="">Choose...</option>
+        <option>Woman</option><option>Man</option><option>Non-binary</option>
+        <option>Prefer not to say</option><option>Other</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="flabel" id="s1r">Race / Ethnicity</div>
+  <select class="inp" id="race">
+    <option value="">Choose...</option>
+    <option>Hispanic or Latino</option><option>Black or African American</option>
+    <option>White</option><option>Asian or Pacific Islander</option>
+    <option>Native American or Alaska Native</option><option>Multiracial</option>
+    <option>Prefer not to say</option><option>Other</option>
+  </select>
+
+  <div class="two-col">
+    <div>
+      <div class="flabel" id="s1i">Yearly Income</div>
+      <select class="inp" id="inc">
+        <option value="">Choose...</option>
+        <option>Under $25,000</option><option>$25,000–$50,000</option>
+        <option>$50,000–$75,000</option><option>Over $75,000</option>
+        <option>Prefer not to say</option>
+      </select>
+    </div>
+    <div>
+      <div class="flabel" id="s1h">Do You Rent?</div>
+      <select class="inp" id="hous">
+        <option value="">Choose...</option>
+        <option>Yes, I rent</option><option>I own my home</option>
+        <option>I live with family</option><option>I have no stable home</option>
+        <option>Prefer not to say</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="flabel" id="s1l">Language Spoken at Home</div>
+  <select class="inp" id="hl">
+    <option value="">Choose...</option>
+    <option>English</option><option>Spanish</option><option>Amharic</option>
+    <option>French</option><option>Portuguese</option><option>Mandarin</option>
+    <option>Arabic</option><option>Other</option>
+  </select>
+
+  <div class="flabel" id="s1cv">Have You Ever Done Any of These? <span class="hint">(optional)</span></div>
+  <select class="inp" id="civ">
+    <option value="">Choose...</option>
+    <option>No — I am just getting started</option>
+    <option>I have voted before</option>
+    <option>I have called or written to an official</option>
+    <option>I have gone to a government meeting</option>
+    <option>I have helped organize my community</option>
+  </select>
+
+  <button class="btn btn-green" id="s1nx" onclick="go(2)" disabled>Continue →</button>
+</div>
+
+<!-- S2 YOUR ISSUE -->
+<div class="screen" id="s2">
+  <div class="steplabel" id="s2a">Step 2 of 4</div>
+  <div class="bigtitle" id="s2b">What Worries You Most?</div>
+  <div class="explain" id="s2c">Pick the biggest problem in your neighborhood. Then get more specific if you can — it helps us give you a much better plan.</div>
+  <div class="igrid" id="igrid"></div>
+  <div class="subwrap" id="subwrap"></div>
+  <div class="other-ta" id="other-ta">
+    <textarea class="inp" id="other-inp" placeholder="Write your concern here in your own words..." oninput="chkOth()"></textarea>
+  </div>
+  <button class="btn btn-green" id="s2nx" onclick="go(3)" disabled>Continue →</button>
+</div>
+
+<!-- S3 YOUR SITUATION -->
+<div class="screen" id="s3">
+  <div class="steplabel" id="s3a">Step 3 of 4</div>
+  <div class="bigtitle" id="s3b">A Few More Questions</div>
+  <div class="explain" id="s3c">These help us make your plan specific to YOU — not a generic plan, but one that fits your exact situation.</div>
+  <div id="dqwrap"></div>
+  <div class="flabel" id="s3x">Anything Else? <span class="hint">(optional)</span></div>
+  <textarea class="inp" id="extra" placeholder="Any other details that might help us..."></textarea>
+  <button class="btn btn-green" onclick="go(4)">Continue →</button>
+</div>
+
+<!-- S4 STAY IN TOUCH -->
+<div class="screen" id="s4">
+  <div class="steplabel" id="s4a">Step 4 of 4</div>
+  <div class="bigtitle" id="s4b">Stay in Touch</div>
+  <div class="explain" id="s4c">Share your contact info and we will follow up — to check in, share wins, and connect you with neighbors who care about the same things.</div>
+
+  <div style="background:#fff8e6;border:2.5px solid var(--gold);border-radius:var(--r);padding:15px;margin-bottom:16px;">
+    <div style="font-size:24px;margin-bottom:5px;">🏅</div>
+    <div style="font-family:var(--fh);font-size:16px;color:var(--gd);margin-bottom:4px;" id="s4bt">Earn Your First Badge</div>
+    <div style="font-family:var(--fb);font-size:14px;color:var(--tl);line-height:1.55;" id="s4bs">Take one step from your plan — make a call, go to a meeting, talk to a neighbor. Then come back and tell us. You will earn the <strong>"I Took Root" 🌱</strong> badge.</div>
+  </div>
+
+  <div class="flabel" id="s4ph">Phone Number <span class="hint">(so we can text you a follow-up)</span></div>
+  <input class="inp" type="tel" id="ph" placeholder="(301) 555-0123" inputmode="tel">
+
+  <div class="flabel" id="s4em">Email Address <span class="hint">(optional)</span></div>
+  <input class="inp" type="email" id="em" placeholder="your@email.com">
+
+  <p style="font-family:var(--fb);font-size:12px;color:var(--tl);line-height:1.6;margin-top:13px;background:var(--white);border:1px solid var(--cdk);border-radius:9px;padding:11px;" id="s4con">We will only use your contact info to follow up about your plan. We will never sell it or share it. You can stop messages at any time by replying STOP.</p>
+
+  <span class="skip" onclick="skipCon()" id="s4sk">Skip — just give me my plan</span>
+  <button class="btn btn-gold" onclick="gen()" id="s4go">Build My Civic Action Plan →</button>
+</div>
+
+<!-- LOADING -->
+<div class="screen" id="scr-load">
+  <svg class="spin" viewBox="0 0 60 60">
+    <circle cx="30" cy="30" r="4" fill="#2d7a0f"/>
+    <line x1="30" y1="30" x2="30" y2="10" stroke="#2d7a0f" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M30 20 Q22 14 18 17 Q22 24 30 20" fill="#639922"/>
+    <path d="M30 18 Q38 12 42 15 Q38 22 30 18" fill="#639922"/>
+    <line x1="8" y1="30" x2="52" y2="30" stroke="#D4A017" stroke-width="1" opacity=".4"/>
+    <line x1="30" y1="30" x2="30" y2="52" stroke="#1a4a08" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="30" y1="52" x2="24" y2="58" stroke="#1a4a08" stroke-width="2" stroke-linecap="round"/>
+    <line x1="30" y1="52" x2="36" y2="58" stroke="#1a4a08" stroke-width="2" stroke-linecap="round"/>
+    <line x1="30" y1="30" x2="14" y2="46" stroke="#D4A017" stroke-width="2" stroke-linecap="round"/>
+    <line x1="14" y1="46" x2="8" y2="52" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="30" y1="30" x2="46" y2="46" stroke="#D4A017" stroke-width="2" stroke-linecap="round"/>
+    <line x1="46" y1="46" x2="50" y2="52" stroke="#D4A017" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  <div class="load-h" id="lh">Finding your plan<span class="ldots"></span></div>
+  <div class="load-p" id="lp">We are looking up your local leaders, finding groups near you, and writing a plan just for your situation. This takes about 20 seconds.</div>
+</div>
+
+<!-- RESULTS -->
+<div class="screen" id="scr-res">
+  <div class="res-band">
+    <div class="res-hi" id="res-hi"></div>
+    <div class="res-title" id="res-title">Your Personal Civic Plan</div>
+  </div>
+  <div id="res-body"></div>
+
+  <!-- Coalition -->
+  <div class="coal-card">
+    <div class="coal-count" id="coal-ct">Others near you care about this too</div>
+    <div class="coal-title" id="coal-t">🤝 Join Forces With Your Neighbors</div>
+    <div class="coal-body" id="coal-b">When neighbors organize together, they get results. A small group showing up to a local meeting is much more powerful than one person calling alone.</div>
+    <span class="coal-link" onclick="showCoal()" id="coal-lnk">→ Get a step-by-step guide to organizing your neighborhood</span>
+  </div>
+
+  <!-- Report back -->
+  <div class="rep-box">
+    <div class="rep-title" id="rb-t">📣 Did You Take a Step? Tell Us!</div>
+    <div class="rep-sub" id="rb-s">When you do something — anything — let us know. We will add it to our community map and give you a badge to share.</div>
+    <div id="rb-opts"></div>
+    <button class="btn btn-gold" id="claim-btn" onclick="claimB()" style="display:none;margin-top:10px;">Get My Badge →</button>
+  </div>
+
+  <div class="act-row">
+    <button class="act-btn ab-grey" onclick="restart()" id="ar1">Start Over</button>
+    <button class="act-btn ab-dark" onclick="showSave()" id="ar2">📸 Save My Plan</button>
+  </div>
+  <div class="footer">I Am the Root | Change Starts Here</div>
+</div>
+
+<!-- SAVE PLAN SCREEN -->
+<div class="screen" id="scr-save">
+  <div style="background:var(--gd);margin:-20px -18px 20px;padding:24px 20px;text-align:center;">
+    <div style="font-family:var(--fh);color:var(--goldf);font-size:14px;margin-bottom:4px;">Your Plan</div>
+    <div style="font-family:var(--fh);color:var(--cream);font-size:22px;" id="save-title">Save Your Civic Action Plan</div>
+  </div>
+  <div style="background:#fff8e6;border:2px solid var(--gold);border-radius:12px;padding:16px;margin-bottom:14px;">
+    <div style="font-size:22px;margin-bottom:6px;">📸</div>
+    <div style="font-family:var(--fh);font-size:16px;color:var(--gd);margin-bottom:5px;">Option 1 — Take a Screenshot</div>
+    <div style="font-family:var(--fb);font-size:14px;color:var(--tm);line-height:1.6;margin-bottom:10px;">Press your phone buttons to screenshot: iPhone = side button + volume up. Android = power + volume down. It saves to your photos.</div>
+    <button class="btn btn-gold" style="margin-top:0;" onclick="go(6)">← Go Back to My Plan to Screenshot</button>
+  </div>
+  <div style="background:var(--white);border:2px solid var(--cdk);border-radius:12px;padding:16px;margin-bottom:14px;">
+    <div style="font-size:22px;margin-bottom:6px;">📱</div>
+    <div style="font-family:var(--fh);font-size:16px;color:var(--gd);margin-bottom:5px;">Option 2 — Get a Text Reminder</div>
+    <div style="font-family:var(--fb);font-size:14px;color:var(--tm);line-height:1.6;margin-bottom:10px;">Leave your phone number and we will text you a follow-up in 30 days to see how things are going. <span style="color:var(--gl);font-weight:600;">We will never share your number.</span></div>
+    <input class="inp" type="tel" id="save-phone" placeholder="(301) 555-0123" inputmode="tel" style="margin-bottom:10px;">
+    <button class="btn btn-green" style="margin-top:0;" onclick="savePhone()">Save My Number →</button>
+    <div id="save-phone-confirm" style="display:none;font-family:var(--fb);font-size:13px;color:var(--gm);margin-top:8px;font-weight:700;">✓ Got it! We will text you in 30 days. 🌱</div>
+  </div>
+
+  <div style="background:var(--white);border:2px solid var(--cdk);border-radius:12px;padding:16px;margin-bottom:14px;">
+    <div style="font-size:22px;margin-bottom:6px;">📧</div>
+    <div style="font-family:var(--fh);font-size:16px;color:var(--gd);margin-bottom:5px;">Option 3 — Email It to Yourself</div>
+    <div style="font-family:var(--fb);font-size:14px;color:var(--tm);line-height:1.6;margin-bottom:10px;">Enter your email and we will send your full plan so you can read it anytime.</div>
+    <input class="inp" type="email" id="save-email" placeholder="your@email.com" style="margin-bottom:10px;">
+    <button class="btn btn-green" style="margin-top:0;" onclick="emailPlan()">Send My Plan →</button>
+    <div id="save-email-confirm" style="display:none;font-family:var(--fb);font-size:13px;color:var(--gm);margin-top:8px;font-weight:700;">✓ Saved! Check your email.</div>
+  </div>
+  <div style="background:var(--white);border:2px solid var(--cdk);border-radius:12px;padding:16px;margin-bottom:14px;">
+    <div style="font-size:22px;margin-bottom:6px;">📋</div>
+    <div style="font-family:var(--fh);font-size:16px;color:var(--gd);margin-bottom:5px;">Option 4 — Copy Key Info</div>
+    <div style="font-family:var(--fb);font-size:14px;color:var(--tm);line-height:1.6;margin-bottom:10px;">Copy the most important parts of your plan to paste into your notes app.</div>
+    <div id="save-summary-box" style="background:var(--cream);border-radius:9px;padding:12px;font-family:var(--fb);font-size:13px;color:var(--tm);line-height:1.7;max-height:180px;overflow-y:auto;margin-bottom:10px;border:1px solid var(--cdk);white-space:pre-wrap;"></div>
+    <button class="btn btn-green" style="margin-top:0;" onclick="copySummary()">Copy to Clipboard →</button>
+    <div id="copy-confirm" style="display:none;font-family:var(--fb);font-size:13px;color:var(--gm);margin-top:8px;font-weight:700;">✓ Copied! Paste it into your notes app.</div>
+  </div>
+  <button class="btn btn-green" onclick="go(6)">← Back to My Full Plan</button>
+  <div class="footer" style="margin-top:16px;">I Am the Root | Change Starts Here</div>
+</div>
+
+<!-- COALITION DEEP -->
+<div class="screen" id="scr-coal">
+  <div style="background:linear-gradient(135deg,var(--gd),var(--gm));margin:-20px -18px 20px;padding:24px 20px;text-align:center;">
+    <div style="font-family:var(--fh);color:var(--cream);font-size:22px;margin-bottom:5px;" id="coal-dh">How to Organize Your Block</div>
+    <div style="font-family:var(--fb);color:rgba(255,255,255,.8);font-size:14px;" id="coal-dp">Step-by-step guide for your neighborhood</div>
+  </div>
+  <div id="coal-dbody"></div>
+  <button class="btn btn-green" onclick="go(6)" id="coal-back">← Back to My Plan</button>
+</div>
+
+<!-- BADGE -->
+<div class="screen" id="scr-badge">
+  <div class="bdg-band">
+    <h2 id="bh">You Did It! 🌱</h2>
+    <p id="bp">Your action has been counted.</p>
+  </div>
+  <div class="bdg-box">
+    <span class="bdg-big" id="bicon">🌱</span>
+    <div class="bdg-name">"I Took Root"</div>
+    <div class="bdg-desc" id="bdesc">You took your first civic step. That is how change starts — one person, one action, one neighborhood at a time. You are the root.</div>
+  </div>
+  <div class="sec-card">
+    <div class="sec-hdr" onclick="tog('nx-card')">
+      <div class="sec-title"><span class="sec-ico">⏭️</span><span>Your Next Badge</span></div>
+      <span class="chev" id="nx-card-chev">▼</span>
+    </div>
+    <div class="sec-body" id="nx-card-body">
+      <div style="font-family:var(--fb);font-size:14px;color:var(--tm);line-height:1.65;">
+        Report 2 more steps to earn <strong>"Rising Root" 🌿</strong> — which connects you with coalition organizers in your area.<br><br>
+        Report 5 total steps to earn <strong>"Root & Branch" 🌳</strong> — our highest honor, with a personal introduction to a lead organizer near you.
+      </div>
+    </div>
+  </div>
+  <div class="sec-card">
+    <div class="sec-hdr" onclick="tog('sh-card')">
+      <div class="sec-title"><span class="sec-ico">📲</span><span>Share Your Badge</span></div>
+      <span class="chev" id="sh-card-chev">▼</span>
+    </div>
+    <div class="sec-body" id="sh-card-body">
+      <div style="font-family:var(--fb);font-size:14px;color:var(--tm);line-height:1.65;">
+        Take a screenshot and share it with neighbors, on WhatsApp, or on social media.<br><br>
+        When people in your community see someone just like them taking action — it inspires them to do the same. <strong>You are the root. Your action is the seed.</strong>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-gold" onclick="restart()">Help Someone Else →</button>
+  <div class="footer" style="margin-top:16px;">I Am the Root | Change Starts Here</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let lang='en', curScr=0, prevScr=0, selReport='';
+let S={zip:'',name:'',age:'',gen:'',race:'',inc:'',hous:'',hl:'',civ:'',main:'',sub:'',other:'',dq:{},extra:'',ph:'',em:''};
+const SCRNS=['s0','s1','s2','s3','s4','scr-load','scr-res','scr-coal','scr-badge','scr-save'];
+
+// ══════════════════════════════════════════════
+// ISSUES — plain language labels
+// ══════════════════════════════════════════════
+const ISS=[
+  {id:'housing',icon:'🏠',
+   en:'Housing & Rent',es:'Vivienda y Renta',
+   subs:{en:['Facing eviction or being pushed out','Rent went up too much','Home is unsafe or broken','I have no stable place to live','Can\'t find affordable housing','My landlord won\'t fix things','Too many people in one home','I think I\'m being discriminated against'],
+         es:['Riesgo de desalojo','La renta subió demasiado','La casa está en malas condiciones','No tengo un hogar estable','No hay vivienda accesible','Mi arrendador no arregla nada','Hay demasiadas personas en casa','Creo que me están discriminando']}},
+  {id:'education',icon:'🏫',
+   en:'Schools & Education',es:'Escuelas y Educación',
+   subs:{en:['School is not good enough','My child needs special education help','School does not feel safe','Not enough after-school programs','Language barriers with the school','My child is being bullied','School keeps suspending my child','Can\'t enroll or access school'],
+         es:['La escuela no es buena','Mi hijo necesita educación especial','La escuela no es segura','No hay suficientes programas extracurriculares','Barrera de idioma con la escuela','Mi hijo está siendo acosado','La escuela suspende mucho a mi hijo','No puedo inscribir a mi hijo']}},
+  {id:'safety',icon:'🚔',
+   en:'Safety & Police',es:'Seguridad y Policía',
+   subs:{en:['Police treated me or my family badly','Gang or drug activity nearby','Cars drive too fast on my street','Not enough street lights','Domestic violence in my home or nearby','Hate crimes or discrimination','Not enough programs for young people','I feel unsafe in my neighborhood'],
+         es:['La policía trató mal a mi familia','Actividad de pandillas o drogas','Los carros van muy rápido','No hay suficiente alumbrado','Violencia doméstica cercana','Crímenes de odio o discriminación','No hay programas para jóvenes','Me siento inseguro en mi vecindario']}},
+  {id:'transit',icon:'🚌',
+   en:'Transportation & Streets',es:'Transporte y Calles',
+   subs:{en:['Bus routes were cut or reduced','Roads and potholes are bad','Sidewalks are unsafe','Not enough parking','Traffic moves too fast','No bike lanes','Hard to get around if disabled','Street floods when it rains'],
+         es:['Rutas de autobús eliminadas','Calles y baches en mal estado','Las aceras son peligrosas','No hay estacionamiento','Tráfico muy peligroso','No hay carriles para bicicletas','Difícil moverse con discapacidad','La calle se inunda con lluvia']}},
+  {id:'jobs',icon:'💼',
+   en:'Jobs & Small Business',es:'Empleos y Negocios',
+   subs:{en:['I can\'t find work','My boss did not pay me what I\'m owed','My rights at work are being violated','I need job training','I want to start or grow a small business','I can\'t get permits or licenses','I need a loan or money for my business','Wages are too low'],
+         es:['No encuentro trabajo','Mi jefe no me pagó lo que me debe','Mis derechos laborales están siendo violados','Necesito capacitación laboral','Quiero iniciar o hacer crecer un negocio','No puedo obtener permisos o licencias','Necesito un préstamo para mi negocio','Los salarios son muy bajos']}},
+  {id:'environment',icon:'🌿',
+   en:'Environment & Parks',es:'Medio Ambiente y Parques',
+   subs:{en:['Air quality is bad','Parks are dirty or unsafe','Water might have lead in it','Illegal dumping near my home','No green spaces or trees','Flooding or climate problems','Pesticides or toxic chemicals nearby','Heat is dangerously bad in summer'],
+         es:['El aire está contaminado','Los parques están sucios o son inseguros','El agua puede tener plomo','Hay basura ilegal cerca de mi casa','No hay espacios verdes','Inundaciones o problemas climáticos','Pesticidas o químicos tóxicos cerca','El calor es peligroso en verano']}},
+  {id:'health',icon:'🏥',
+   en:'Health & Services',es:'Salud y Servicios',
+   subs:{en:['I can\'t afford or access healthcare','I need mental health help','Substance use or addiction help','I don\'t have enough food','I need help for someone with a disability','Pregnant or new mom needing help','My elderly family member needs help','I need benefits like Medicaid or food stamps'],
+         es:['No puedo pagar o acceder a atención médica','Necesito ayuda de salud mental','Ayuda con uso de sustancias o adicción','No tengo suficiente comida','Necesito ayuda para alguien con discapacidad','Embarazada o nueva mamá que necesita ayuda','Mi familiar mayor necesita ayuda','Necesito beneficios como Medicaid o cupones']}},
+  {id:'immigration',icon:'📋',
+   en:'Immigration & Rights',es:'Inmigración y Derechos',
+   subs:{en:['I am worried about my immigration status','I don\'t know my rights if ICE comes','Someone treated me unfairly because of who I am','Government office won\'t help me in my language','I want to become a citizen','My family was separated','I need a lawyer but can\'t afford one','I am not sure if I can vote'],
+         es:['Me preocupa mi estatus migratorio','No sé mis derechos si viene ICE','Alguien me trató injustamente por quien soy','El gobierno no me ayuda en mi idioma','Quiero hacerme ciudadano','Mi familia fue separada','Necesito un abogado pero no puedo pagar','No sé si puedo votar']}},
+  {id:'other',icon:'✏️',en:'Something Else',es:'Otra Cosa',other:true}
+];
+
+// ══════════════════════════════════════════════
+// DEPTH QUESTIONS — plain language, issue-specific
+// ══════════════════════════════════════════════
+const DQ={
+  housing:[
+    {q:'Do you rent your home or own it?',hint:'This helps us know what rules protect you.',opts:['I rent','I own my home','I stay with family or friends','I have no stable home right now']},
+    {q:'Have you gotten any papers from your landlord or the court?',hint:'Things like an eviction notice or a letter saying you have to leave.',opts:['Yes — I have a notice right now','Yes — I got one before','No','I\'m not sure what I got']},
+    {q:'Do you have a written lease or rental agreement?',hint:'A lease is a paper you signed when you moved in.',opts:['Yes, I have a signed lease','No — nothing was signed','We go month to month','I\'m not sure']},
+    {q:'Are children or elderly family members affected?',opts:['Yes — children are affected','Yes — elderly family members','Both','No','Just me']}
+  ],
+  education:[
+    {q:'How old is the child who needs help?',hint:'Or choose "I am the student" if this is for you.',opts:['Under 5 years old','Elementary school (5–10)','Middle school (11–13)','High school (14–18)','I am the student']},
+    {q:'Does your child have a learning disability or special need?',hint:'Has a doctor or school ever told you this?',opts:['Yes — they have an IEP plan','Yes — they have a 504 plan','I think so but no plan yet','No']},
+    {q:'How has the school responded to the problem?',opts:['They tried to help but it\'s not enough','They ignored us','The school is the problem','I haven\'t talked to them yet']},
+    {q:'Has this caused your child to miss school?',opts:['Yes — a lot','Some days','No','They stopped going to school']}
+  ],
+  safety:[
+    {q:'Did this happen to you or your family directly?',opts:['Yes — it happened to us','We saw it happen','It happens all the time in our area','I\'m worried it will happen']},
+    {q:'Did you report it to the police?',hint:'It is okay if you didn\'t — there are other options.',opts:['Yes — they helped','Yes — but nothing happened','No — I\'m afraid to call police','No — I didn\'t know who to call','Not relevant to my situation']},
+    {q:'Are young people (under 25) involved or at risk?',opts:['Yes — very much so','A little','No','I\'m not sure']},
+    {q:'How long has this been a problem?',opts:['Just recently','A few months','For years','My whole time living here']}
+  ],
+  transit:[
+    {q:'Do you have a car?',opts:['Yes','No — I depend on the bus or train','No — I walk or bike everywhere','Sometimes I borrow one']},
+    {q:'How does this problem affect your daily life?',opts:['Getting to work or school','Getting to a doctor','Getting food','It is a safety risk — I could get hurt','All of the above']},
+    {q:'Have you reported this to anyone?',opts:['Yes — to the county or city','Yes — multiple times','No — didn\'t know how','No — didn\'t think it would help']},
+    {q:'Are your neighbors dealing with the same problem?',opts:['Yes — many of my neighbors','Some of them','I\'m not sure','Mostly just me']}
+  ],
+  jobs:[
+    {q:'Are you an employee, a business owner, or looking for work?',opts:['I work for someone else','I own a small business','I am looking for work','I do gig work (Uber, Instacart, etc.)']},
+    {q:'What kind of work do you do or want to do?',opts:['Construction or trades','Food service or restaurant','Cleaning or home care','Retail or store work','Healthcare','Transportation','Something else']},
+    {q:'Is there an urgent legal problem — like unpaid wages or being fired unfairly?',hint:'Wage theft means your boss did not pay you what you earned.',opts:['Yes — I need help now','It happened but is over now','No — it is more of a general problem','I\'m not sure if it is a legal issue']},
+    {q:'How many people are affected by this problem?',opts:['Just me','A few of my coworkers','Many workers','A lot of people in my neighborhood']}
+  ],
+  environment:[
+    {q:'Where is the problem happening?',opts:['Inside my home (water, air, mold)','Right outside my home','In my neighborhood\'s park or street','At my child\'s school','At my workplace']},
+    {q:'Has anyone in your family had health problems that might be related?',opts:['Yes — a doctor said it is related','We believe it is related','Not yet — but we are worried','No']},
+    {q:'Has this been reported to the government?',opts:['Yes — I reported it','Yes — neighbors reported it','No — I didn\'t know how','Yes — but nothing happened']},
+    {q:'Is this a specific building, park, or street?',opts:['Yes — one specific place','Multiple spots in the neighborhood','The whole area has this problem','I\'m not sure']}
+  ],
+  health:[
+    {q:'Do you have health insurance right now?',hint:'Health insurance helps pay for doctor visits and medicine.',opts:['Yes — from my job','Yes — Medicaid (government health coverage)','Yes — Medicare (for people 65+)','No — I have no insurance','I\'m not sure what I have']},
+    {q:'Is this something you need help with right away, or is it ongoing?',opts:['I need help right now — it\'s urgent','It\'s been going on for a long time','I can\'t get to a doctor at all','It\'s about mental health or emotions','It\'s about not having enough food']},
+    {q:'Who needs help?',opts:['Me','My child or children','An elderly parent or relative','My whole family','Someone else']},
+    {q:'Have you been told you don\'t qualify for help — but you think you should?',opts:['Yes — I was turned away','Yes — but I gave up','No','I don\'t know what I qualify for']}
+  ],
+  immigration:[
+    {q:'Is this something urgent that needs help right away?',hint:'For example, someone is detained, has a court date, or just got a notice.',opts:['Yes — this is urgent and happening now','Yes — I have a court date coming','It\'s ongoing but not a crisis right now','No — I just want to understand my rights']},
+    {q:'Do you have a lawyer helping you?',opts:['Yes','No — I can\'t afford one','I had one but lost contact','No — I didn\'t know I needed one']},
+    {q:'Are family members also affected?',opts:['Yes — my children','Yes — my spouse or partner','Yes — other family members','No — just me','Prefer not to say']},
+    {q:'What would help you most right now?',opts:['Legal help and a lawyer','Understanding my rights','Help with paperwork or forms','Connecting with others in my situation','Knowing what to do if ICE comes']}
+  ],
+  other:[
+    {q:'How long has this been a problem for you?',opts:['Just started recently','A few months','Over a year','Most of my life']},
+    {q:'Who do you think is responsible for fixing this?',opts:['Local government (city or county)','A landlord or business','A neighbor or community member','It\'s a bigger system problem','I\'m not sure']},
+    {q:'Have you tried to do anything about it before?',opts:['No — I didn\'t know how','I talked to neighbors about it','I contacted a government office','I worked with a group or organization','I tried to organize something myself']},
+    {q:'What makes it hardest to take action?',opts:['I don\'t know where to start','Language is a barrier','I\'m worried about my immigration status','I don\'t have time','I don\'t think it will make a difference','I tried before and nothing happened']}
+  ]
+};
+
+// ══════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════
+function go(n){
+  document.getElementById(SCRNS[curScr]).classList.remove('on');
+  document.getElementById(SCRNS[n]).classList.add('on');
+  prevScr=curScr; curScr=n;
+  document.getElementById('pbar').style.width=Math.round((n/5)*100)+'%';
+  window.scrollTo(0,0);
+}
+function goBack(){go(prevScr);}
+
+// ══════════════════════════════════════════════
+// LANGUAGE
+// ══════════════════════════════════════════════
+const TX={
+  en:{
+    'hdr-tag':'Change Starts Here',
+    'w1':'You have the power to change things.',
+    'w2':'This free tool shows you who represents you, what rights you have, and simple steps you can take — right in your neighborhood.',
+    'w3':'🌱 <strong>Takes about 4 minutes.</strong><br>You will get a personal plan — written just for you — with names, phone numbers, and easy steps. No experience needed.',
+    'wb':'Let\'s Start →',
+    'wpriv':'Your answers are private. We never sell your information.',
+    's1a':'Step 1 of 4','s1b':'About You',
+    's1c':'This helps us find help that is right for your community. Everything is optional — except your zip code.',
+    's1z':'Your Zip Code <span class="hint">(required)</span>',
+    's1n':'Your First Name <span class="hint">(optional)</span>',
+    's1ag':'Your Age','s1g':'Gender','s1r':'Race / Ethnicity',
+    's1i':'Yearly Income','s1h':'Do You Rent?',
+    's1l':'Language Spoken at Home',
+    's1cv':'Have You Ever Done Any of These? <span class="hint">(optional)</span>',
+    's1nx':'Continue →',
+    's2a':'Step 2 of 4','s2b':'What Worries You Most?',
+    's2c':'Pick the biggest problem in your neighborhood. Then get more specific if you can — it helps us give you a much better plan.',
+    's2nx':'Continue →',
+    's3a':'Step 3 of 4','s3b':'A Few More Questions',
+    's3c':'These help us make your plan specific to YOU — not a generic plan, but one that fits your exact situation.',
+    's3x':'Anything Else? <span class="hint">(optional)</span>',
+    's4a':'Step 4 of 4','s4b':'Stay in Touch',
+    's4c':'Share your contact info and we will follow up — to check in, share wins, and connect you with neighbors who care about the same things.',
+    's4bt':'Earn Your First Badge',
+    's4bs':'Take one step from your plan — make a call, go to a meeting, talk to a neighbor. Then come back and tell us. You will earn the <strong>"I Took Root" 🌱</strong> badge.',
+    's4ph':'Phone Number <span class="hint">(so we can text you a follow-up)</span>',
+    's4em':'Email Address <span class="hint">(optional)</span>',
+    's4con':'We will only use your contact info to follow up about your plan. We will never sell it or share it. You can stop messages at any time by replying STOP.',
+    's4sk':'Skip — just give me my plan',
+    's4go':'Build My Civic Action Plan →',
+    'lh':'Finding your plan','lp':'We are looking up your local leaders, finding groups near you, and writing a plan just for your situation. This takes about 20 seconds.',
+    'res-title':'Your Personal Civic Plan',
+    'coal-dh':'How to Organize Your Block','coal-dp':'Step-by-step guide for your neighborhood',
+    'coal-back':'← Back to My Plan',
+    'rb-t':'📣 Did You Take a Step? Tell Us!',
+    'rb-s':'When you do something — anything — let us know. We will add it to our community map and give you a badge to share.',
+    'ar1':'Start Over','ar2':'📸 Save My Plan',
+    'bh':'You Did It! 🌱','bp':'Your action has been counted.',
+    's4sk':'Skip — just give me my plan'
+  },
+  es:{
+    'hdr-tag':'El Cambio Empieza Aquí',
+    'w1':'Tienes el poder de cambiar las cosas.',
+    'w2':'Esta herramienta gratuita te muestra quién te representa, qué derechos tienes y pasos simples que puedes tomar — en tu propio vecindario.',
+    'w3':'🌱 <strong>Toma unos 4 minutos.</strong><br>Recibirás un plan personal — escrito solo para ti — con nombres, números de teléfono y pasos fáciles. No se necesita experiencia.',
+    'wb':'Empecemos →',
+    'wpriv':'Tus respuestas son privadas. Nunca vendemos tu información.',
+    's1a':'Paso 1 de 4','s1b':'Sobre Ti',
+    's1c':'Esto nos ayuda a encontrar ayuda específica para tu comunidad. Todo es opcional — excepto tu código postal.',
+    's1z':'Tu Código Postal <span class="hint">(requerido)</span>',
+    's1n':'Tu Nombre <span class="hint">(opcional)</span>',
+    's1ag':'Tu Edad','s1g':'Género','s1r':'Raza / Etnicidad',
+    's1i':'Ingresos Anuales','s1h':'¿Rentas?',
+    's1l':'Idioma que Hablas en Casa',
+    's1cv':'¿Has Hecho Alguna de Estas Cosas? <span class="hint">(opcional)</span>',
+    's1nx':'Continuar →',
+    's2a':'Paso 2 de 4','s2b':'¿Qué Te Preocupa Más?',
+    's2c':'Elige el problema más grande en tu vecindario. Luego sé más específico si puedes — eso nos ayuda a darte un plan mucho mejor.',
+    's2nx':'Continuar →',
+    's3a':'Paso 3 de 4','s3b':'Unas Preguntas Más',
+    's3c':'Estas preguntas nos ayudan a hacer tu plan específico para TI — no un plan genérico, sino uno que se ajuste a tu situación exacta.',
+    's3x':'¿Algo Más? <span class="hint">(opcional)</span>',
+    's4a':'Paso 4 de 4','s4b':'Mantente en Contacto',
+    's4c':'Comparte tu información de contacto y haremos seguimiento — para ver cómo te va y conectarte con vecinos que se preocupan por las mismas cosas.',
+    's4bt':'Gana Tu Primera Insignia',
+    's4bs':'Da un paso de tu plan — haz una llamada, ve a una reunión, habla con un vecino. Luego dinos. Ganarás la insignia <strong>"Eché Raíces" 🌱</strong>.',
+    's4ph':'Número de Teléfono <span class="hint">(para enviarte un mensaje de seguimiento)</span>',
+    's4em':'Correo Electrónico <span class="hint">(opcional)</span>',
+    's4con':'Solo usaremos tu información para hacer seguimiento de tu plan. Nunca la venderemos ni la compartiremos. Puedes detener los mensajes en cualquier momento respondiendo STOP.',
+    's4sk':'Omitir — solo dame mi plan',
+    's4go':'Construir Mi Plan Cívico →',
+    'lh':'Encontrando tu plan','lp':'Estamos buscando tus líderes locales, encontrando grupos cercanos y escribiendo un plan para tu situación. Esto toma unos 20 segundos.',
+    'res-title':'Tu Plan Cívico Personal',
+    'coal-dh':'Cómo Organizar Tu Vecindario','coal-dp':'Guía paso a paso para tu comunidad',
+    'coal-back':'← Volver a Mi Plan',
+    'rb-t':'📣 ¿Tomaste un Paso? ¡Dinos!',
+    'rb-s':'Cuando hagas algo — lo que sea — dinos. Lo agregaremos a nuestro mapa comunitario y te daremos una insignia para compartir.',
+    'ar1':'Empezar de Nuevo','ar2':'📸 Guardar Mi Plan',
+    'bh':'¡Lo Lograste! 🌱','bp':'Tu acción ha sido contada.',
+    's4sk':'Omitir — solo dame mi plan'
+  },
+  ot:{
+    'hdr-tag':'Change Starts Here / El Cambio Empieza Aquí',
+    'w1':'You have the power to change things.',
+    'w2':'This free tool is available in any language. Type or speak in your language and we will help you.',
+    'w3':'🌱 <strong>About 4 minutes.</strong><br>You will get a personal plan with names, phone numbers, and easy steps. / Recibirás un plan personal con nombres, números y pasos fáciles.',
+    'wb':'Start / Empezar →',
+    'wpriv':'Private. Never sold. / Privado. Nunca vendido.',
+    's1a':'Step 1 / Paso 1','s1b':'About You / Sobre Ti',
+    's1c':'Helps us find resources for you. All optional except zip code. / Nos ayuda a encontrar recursos. Todo opcional excepto código postal.',
+    's1z':'Zip Code / Código Postal <span class="hint">(required)</span>',
+    's1n':'First Name / Nombre <span class="hint">(optional)</span>',
+    's1ag':'Age / Edad','s1g':'Gender / Género','s1r':'Race / Raza',
+    's1i':'Income / Ingresos','s1h':'Housing / Vivienda',
+    's1l':'Home Language / Idioma en Casa',
+    's1cv':'Past civic experience? / ¿Experiencia cívica? <span class="hint">(optional)</span>',
+    's1nx':'Continue / Continuar →',
+    's2a':'Step 2 / Paso 2','s2b':'What Worries You? / ¿Qué Te Preocupa?',
+    's2c':'Pick your issue. / Elige tu tema.',
+    's2nx':'Continue / Continuar →',
+    's3a':'Step 3 / Paso 3','s3b':'More Questions / Más Preguntas',
+    's3c':'Help us personalize your plan. / Ayúdanos a personalizar tu plan.',
+    's3x':'Anything else? / ¿Algo más? <span class="hint">(optional)</span>',
+    's4a':'Step 4 / Paso 4','s4b':'Stay in Touch / Mantente en Contacto',
+    's4c':'Share your contact info for follow-up. / Comparte tu contacto para seguimiento.',
+    's4bt':'Earn Your Badge / Gana Tu Insignia',
+    's4bs':'Take one action and report back to earn the <strong>"I Took Root" 🌱</strong> badge.',
+    's4ph':'Phone / Teléfono <span class="hint">(optional)</span>',
+    's4em':'Email <span class="hint">(optional)</span>',
+    's4con':'We never sell your data. Reply STOP to opt out. / Nunca vendemos tus datos.',
+    's4sk':'Skip / Omitir',
+    's4go':'Build My Plan / Construir Mi Plan →',
+    'lh':'Building your plan / Creando tu plan','lp':'One moment / Un momento...',
+    'res-title':'Your Civic Plan / Tu Plan Cívico',
+    'coal-dh':'How to Organize / Cómo Organizar','coal-dp':'Step by step / Paso a paso',
+    'coal-back':'← Back / Volver',
+    'rb-t':'📣 Report Back / Reporta','rb-s':'Tell us what you did. / Dinos qué hiciste.',
+    'ar1':'Start Over / Empezar','ar2':'📸 Save / Guardar',
+    'bh':'You Did It! / ¡Lo Lograste! 🌱','bp':'Your action is counted. / Tu acción fue contada.',
+    's4sk':'Skip / Omitir'
+  }
+};
+
+function setLang(l,btn){
+  lang=l;
+  document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const map=TX[l]||TX.en;
+  Object.entries(map).forEach(([id,txt])=>{
+    const el=document.getElementById(id);
+    if(el) el.innerHTML=txt;
+  });
+  buildGrid(); buildDQ();
+}
+
+// ══════════════════════════════════════════════
+// VALIDATION
+// ══════════════════════════════════════════════
+function chkZ(){
+  const val = document.getElementById('zip').value;
+  S.zip = val;
+  document.getElementById('s1nx').disabled = val.length !== 5;
+  if(val.length === 5) fetchOfficials(val);
+}
+
+async function fetchOfficials(zip){
+  try {
+    const apiKey = 'AIzaSyBS2jSD5t2A9SdqzY9G7Kog7t3qwmPtwws';
+    const url = `https://www.googleapis.com/civicinfo/v2/representatives?address=${zip}&key=${apiKey}`;
+    const r = await fetch(url);
+    const d = await r.json();
+    if(!d.officials) return;
+
+    // Build a clean officials list
+    const offices = d.offices || [];
+    const officials = d.officials || [];
+    let officialsList = [];
+
+    offices.forEach(office => {
+      (office.officialIndices || []).forEach(idx => {
+        const off = officials[idx];
+        if(!off) return;
+        const phones = (off.phones||[]).join(', ');
+        const emails = (off.emails||[]).join(', ');
+        const urls = (off.urls||[]).join(' ');
+        const address = off.address ? off.address.map(a =>
+          [a.line1, a.city, a.state, a.zip].filter(Boolean).join(', ')
+        ).join(' | ') : '';
+        const channels = (off.channels||[]).map(c => c.type+': '+c.id).join(' | ');
+        officialsList.push({
+          office: office.name,
+          name: off.name,
+          party: off.party||'',
+          phone: phones,
+          email: emails,
+          url: urls,
+          address: address,
+          channels: channels
+        });
+      });
+    });
+
+    // Store for use in prompt
+    S.officials = officialsList;
+
+    // Show a small confirmation near the zip field
+    const existing = document.getElementById('officials-found');
+    if(existing) existing.remove();
+    const msg = document.createElement('div');
+    msg.id = 'officials-found';
+    msg.style.cssText = 'font-family:var(--fb);font-size:12px;color:var(--gm);font-weight:700;margin-top:6px;';
+    msg.textContent = '✓ Found ' + officialsList.length + ' officials for zip ' + zip;
+    document.getElementById('zip').parentNode.appendChild(msg);
+
+  } catch(e) {
+    S.officials = null;
+    console.log('Civic API error:', e);
+  }
+}
+function chkOth(){S.other=document.getElementById('other-inp').value.trim();document.getElementById('s2nx').disabled=S.other.length<4;}
+
+// ══════════════════════════════════════════════
+// ISSUE GRID
+// ══════════════════════════════════════════════
+function buildGrid(){
+  const g=document.getElementById('igrid');
+  g.innerHTML='';
+  document.getElementById('subwrap').style.display='none';
+  document.getElementById('other-ta').style.display='none';
+  document.getElementById('s2nx').disabled=true;
+  ISS.forEach((iss,i)=>{
+    const d=document.createElement('div');
+    d.className='icard'+(iss.other?' icard-other':'');
+    d.id='ic'+i;
+    const lbl=lang==='es'?iss.es:iss.en;
+    if(iss.other){
+      d.innerHTML=`<span style="font-size:22px">${iss.icon}</span><span class="ic-txt">${lbl}</span>`;
+      d.onclick=()=>pickOth(i);
+    } else {
+      d.innerHTML=`<div class="ic-em">${iss.icon}</div><div class="ic-txt">${lbl}</div>`;
+      d.onclick=()=>pickIss(iss,i);
+    }
+    g.appendChild(d);
+  });
+}
+
+function pickIss(iss,idx){
+  document.querySelectorAll('.icard').forEach(c=>c.classList.remove('on'));
+  document.getElementById('ic'+idx).classList.add('on');
+  S.main=iss.en; S.sub=''; S.other='';
+  document.getElementById('other-ta').style.display='none';
+  const sw=document.getElementById('subwrap');
+  sw.style.display='block';
+  const subs=iss.subs[lang]||iss.subs.en;
+  const hd=lang==='es'?'Sé más específico — ¿cuál de estos?':'Be more specific — which one fits best?';
+  sw.innerHTML=`<div class="sub-hd">🎯 ${hd}</div><div class="chips" id="chips"></div>`;
+  subs.forEach(s=>{
+    const ch=document.createElement('button');
+    ch.className='chip';ch.textContent=s;
+    ch.onclick=()=>{document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));ch.classList.add('on');S.sub=s;};
+    document.getElementById('chips').appendChild(ch);
+  });
+  document.getElementById('s2nx').disabled=false;
+  buildDQ(iss.id);
+  sw.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function pickOth(idx){
+  document.querySelectorAll('.icard').forEach(c=>c.classList.remove('on'));
+  document.getElementById('ic'+idx).classList.add('on');
+  S.main='Other';
+  document.getElementById('subwrap').style.display='none';
+  document.getElementById('other-ta').style.display='block';
+  document.getElementById('s2nx').disabled=true;
+  document.getElementById('other-inp').placeholder=lang==='es'?'Escribe tu preocupación aquí...':'Write your concern here...';
+  buildDQ('other');
+  document.getElementById('other-inp').focus();
+}
+
+// ══════════════════════════════════════════════
+// DEPTH QUESTIONS
+// ══════════════════════════════════════════════
+function buildDQ(id){
+  const issId=id||(ISS.find(i=>i.en===S.main)?.id)||'other';
+  const qs=DQ[issId]||DQ.other;
+  const c=document.getElementById('dqwrap');
+  c.innerHTML=''; S.dq={};
+  qs.forEach((q,i)=>{
+    const box=document.createElement('div');
+    box.className='dq-box';
+    box.innerHTML=`<div class="dq-q">${q.q}</div>${q.hint?`<div class="dq-hint">${q.hint}</div>`:''}`;
+    const sel=document.createElement('select');
+    sel.className='inp';
+    sel.innerHTML=`<option value="">${lang==='es'?'Elige...':'Choose...'}</option>`+q.opts.map(o=>`<option>${o}</option>`).join('');
+    sel.onchange=()=>{S.dq['q'+i]=sel.value;};
+    box.appendChild(sel);
+    c.appendChild(box);
+  });
+}
+
+// ══════════════════════════════════════════════
+// CONTACT
+// ══════════════════════════════════════════════
+function skipCon(){S.ph='';S.em='';gen();}
+
+// ══════════════════════════════════════════════
+// GENERATE
+// ══════════════════════════════════════════════
+async function gen(){
+  S.name=document.getElementById('nm').value.trim();
+  S.age=document.getElementById('age').value;
+  S.gen=document.getElementById('gen').value;
+  S.race=document.getElementById('race').value;
+  S.inc=document.getElementById('inc').value;
+  S.hous=document.getElementById('hous').value;
+  S.hl=document.getElementById('hl').value;
+  S.civ=document.getElementById('civ').value;
+  S.extra=document.getElementById('extra').value.trim();
+  S.ph=document.getElementById('ph').value.trim();
+  S.em=document.getElementById('em').value.trim();
+  go(5);
+
+  const concern=S.sub||S.main||S.other;
+  const dqStr=Object.values(S.dq).filter(Boolean).join('; ');
+  const demo=[S.age&&`Age:${S.age}`,S.gen&&`Gender:${S.gen}`,S.race&&`Race:${S.race}`,S.inc&&`Income:${S.inc}`,S.hous&&`Housing:${S.hous}`,S.hl&&`Home language:${S.hl}`,S.civ&&`Civic experience:${S.civ}`].filter(Boolean).join(', ');
+  const rl=lang==='es'?'Spanish':lang==='ot'?'the same language as the person\'s concern':'English';
+
+  const prompt=`You are a caring civic empowerment guide. Respond in ${rl}. Write at a 5th-6th grade reading level. Use SHORT sentences. Use SIMPLE words. Avoid ALL jargon. When you must use a civic term, explain it in plain language right away in parentheses.
+
+Person: Zip ${S.zip} (Prince George's County, Maryland / DC metro area). Issue: ${concern}. Background: ${demo||'not shared'}. Situation details: ${dqStr||'not provided'}. Extra: ${S.extra||'none'}.
+
+Write a HYPERLOCAL, PERSONAL plan. Use real names, real phone numbers, real addresses for Prince George's County. If you are not 100% sure of a number or name, say "check this at [website]" instead of guessing.
+
+Use these exact bold headers:
+
+**THE PEOPLE WHO WORK FOR YOU**
+Here is the LIVE data from Google's official government database for zip code ${S.zip}. Use EXACTLY this information — do not change names, phone numbers, or titles:
+
+${S.officials ? S.officials.map(o => `${o.office}: ${o.name} (${o.party}) | Phone: ${o.phone||'see website'} | Email: ${o.email||'see website'} | Website: ${o.url||'N/A'} | Address: ${o.address||'N/A'}`).join('\n') : 'Officials data not available — use best knowledge for zip '+S.zip}
+
+For EACH official above: write their title in plain language (e.g. "Your U.S. Senator — works in Washington DC and makes national laws for all of Maryland"), then show their complete contact info exactly as listed above, then add 1–2 plain-language sentences about their record or known position on ${concern}. NEVER tell the person to look anything up — everything they need is right here. For EACH official include: their title explained simply (e.g. "Your U.S. Senator — works in Washington DC and makes national laws"), full name, direct phone number, email address, website, and 1–2 plain-language sentences about their record or position on ${concern}. Include ALL of these with complete contact details:
+
+1. U.S. Senator Chris Van Hollen (D-MD) — 202-224-4654 | vanhollen.senate.gov/contact | 110 Hart Senate Office Building, Washington DC 20510
+2. U.S. Senator Angela Alsobrooks (D-MD) — 202-224-4654 | alsobrooks.senate.gov | Former PG County Executive
+3. U.S. Representative for zip ${S.zip} — provide their name, direct office phone, email, and district office address in Prince George's County
+4. Maryland State Senator for zip ${S.zip} — provide their name, district number, phone at 410-841-3000 (Annapolis switchboard), and email from mgaleg.maryland.gov
+5. Maryland State Delegate(s) for zip ${S.zip} — same format
+6. Prince George's County Executive Aisha Braveboy — 301-952-4131 | abraveboy@co.pg.md.us | 14741 Governor Oden Bowie Dr, Upper Marlboro MD 20772
+7. Prince George's County Council Member for this district — provide their name, district number, direct phone, and email from pgccouncil.us
+
+If you are not 100% certain of a specific name, say "Confirm current name at [website]" but STILL provide the phone number and address. Never leave a person without a way to make contact.
+
+**5 THINGS YOU CAN DO — STARTING TODAY**
+Number each one 1 through 5. Each step starts with a time: TODAY, THIS WEEK, THIS MONTH, IN 2 MONTHS, IN 3 MONTHS. Use plain everyday language. Tell them exactly what to do, the exact name of who to contact, the exact phone number or address, and what to say when they get there. Step 1 must take less than 5 minutes. Step 5 should build real community power. Make every step specific to ${S.zip} and ${concern}.
+
+**GROUPS AND PEOPLE WHO CAN HELP YOU**
+List 8 real local groups or offices in Prince George's County or nearby that help with ${concern}. For each: the group's name, what they actually do to help (in plain words — not what their mission statement says, but what they do for real people), the address, phone number, website, and ONE simple first step to contact them (like "walk in Monday–Friday 9am–5pm" or "call this number and say you need help with X"). Include nonprofits, legal help, faith groups, and community organizing groups.
+
+**YOUR RIGHTS — WHAT YOU ARE PROTECTED FROM**
+List 5 rights the person has under Maryland law, federal law, or Prince George's County rules related to ${concern}. For each right: give it a plain-language name (like "The Right to a Safe Home"), explain what it means in simple terms, name the actual law that says so, and tell them what to do if someone violates this right. Write each one like you are telling a friend — warm and direct.
+
+**WORDS TO USE — SCRIPTS READY TO GO**
+Write 3 complete, ready-to-use scripts. Each must be grammatically perfect, warm in tone, and written specifically about ${concern} — not generic templates. Use the person's actual situation from the details provided.
+
+Script 1 — Phone Call (under 60 seconds, read word for word):
+Write a complete, natural-sounding script starting "Hi, my name is ${S.name||'[your name]'} and I am a resident of zip code ${S.zip}..." The script must mention ${concern} specifically, make one clear ask, and end politely. Write it as a complete paragraph they can read aloud.
+
+Script 2 — Email (complete and ready to send):
+Subject line: [write a specific subject line about ${concern}]
+Body: Write a complete 3-paragraph email. Paragraph 1: who they are and where they live. Paragraph 2: the specific problem and how it affects them. Paragraph 3: the specific ask and offer to meet. Sign off with their name. Make every sentence grammatically correct and specific to ${concern}.
+
+Script 3 — Public Comment Speech (exactly 3 minutes when read aloud, about 350 words):
+Write a complete speech. Tell them: County Council meetings happen every Tuesday at 10am at 14741 Governor Oden Bowie Drive, Upper Marlboro MD 20772 — walk in, sign up to speak at the door, free and open to everyone. Then write the full speech about ${concern}, including one personal story moment, one specific ask, and a strong closing line.
+
+**YOUR PLAN: 30 DAYS, 60 DAYS, 90 DAYS**
+Three short paragraphs. Plain words. What to do in each time period. Name specific meetings, specific groups, and one clear goal for each phase. Make it feel doable — not overwhelming.
+
+Remember: The person reading this may be new to all of this. Write like you are a trusted friend walking them through it for the first time. Warm, clear, and specific.`;
+
+  try {
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json','x-api-key':'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','anthropic-version':'2023-06-01'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+    });
+    const d=await r.json();
+    const txt=d.content.map(i=>i.text||'').join('');
+    renderRes(txt); renderCoal(); renderRepOpts();
+    go(6);
+  } catch(e){
+    renderRes(fallback()); renderCoal(); renderRepOpts();
+    go(6);
+  }
+}
+
+// ══════════════════════════════════════════════
+// RENDER RESULTS
+// ══════════════════════════════════════════════
+const SMETA=[
+  {k:'THE PEOPLE WHO WORK FOR YOU',ico:'🏛️'},
+  {k:'5 THINGS YOU CAN DO',ico:'✊'},
+  {k:'GROUPS AND PEOPLE',ico:'🤝'},
+  {k:'YOUR RIGHTS',ico:'⚖️'},
+  {k:'WORDS TO USE',ico:'📞'},
+  {k:'YOUR PLAN',ico:'🗓️'}
+];
+
+function renderRes(txt){
+  const greet=S.name?(lang==='es'?`Hola, ${S.name}`:`Hi, ${S.name}`):(lang==='es'?'Tu Plan':'Your Plan');
+  document.getElementById('res-hi').textContent=greet;
+  const body=document.getElementById('res-body');
+  body.innerHTML='';
+  const parts=txt.split(/\*\*([^*\n]+)\*\*/g);
+  for(let i=1;i<parts.length;i+=2){
+    const hdr=parts[i].trim();
+    const cont=(parts[i+1]||'').trim();
+    if(!cont) continue;
+    const meta=SMETA.find(m=>hdr.toUpperCase().includes(m.k))||{ico:'🌿'};
+    const cid='rc'+i;
+    const card=document.createElement('div');
+    card.className='sec-card';
+    card.innerHTML=`
+      <div class="sec-hdr" id="${cid}-hdr" onclick="tog('${cid}')">
+        <div class="sec-title"><span class="sec-ico">${meta.ico}</span><span>${hdr}</span></div>
+        <span class="chev" id="${cid}-chev">▼</span>
+      </div>
+      <div class="sec-body" id="${cid}-body">
+        <div class="sec-content">${fmtSec(cont,hdr)}</div>
+      </div>`;
+    body.appendChild(card);
+    if(i<=3) tog(cid);
+  }
+  if(!body.children.length){
+    body.innerHTML=`<div class="sec-card"><div class="sec-body on"><div style="font-family:var(--fb);font-size:15px;color:var(--tm);line-height:1.7;">${txt.replace(/\n/g,'<br>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')}</div></div></div>`;
+  }
+}
+
+function fmtSec(txt,hdr){
+  let h=txt.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+
+  // Officials — parse into item cards with tap-to-expand
+  if(hdr.toUpperCase().includes('PEOPLE WHO WORK FOR YOU')){
+    // Split on double line breaks or numbered official entries
+    const blocks=h.split(/\n{2,}|(?=<strong>[A-Z])/g).filter(b=>b.trim());
+    if(blocks.length>2){
+      return blocks.map((blk,i)=>{
+        if(!blk.trim()) return '';
+        const nameMatch=blk.match(/^<strong>([^<]+)<\/strong>/);
+        const name=nameMatch?nameMatch[1]:'Official';
+        const clean=blk.replace(/\n/g,'<br>').replace(/^<br>/,'');
+        const oid='off'+i+Date.now();
+        return `<div class="item-card" onclick="openModal('${oid}','${name.replace(/'/g,"\\'")}','official')">
+          <div class="item-name">${name}</div>
+          <div class="item-contact">${clean.replace(nameMatch?.[0]||'','')}</div>
+          <div class="item-tap">Tap to see voting record & contact scripts →</div>
+        </div>`;
+      }).join('');
+    }
+    return h.replace(/\n/g,'<br>');
+  }
+
+  // Steps
+  if(hdr.toUpperCase().includes('5 THINGS')||hdr.toUpperCase().includes('ACTION')){
+    let out='';
+    const chunks=h.split(/(?=\b[1-5]\b\.?\s)/g).filter(c=>c.trim());
+    chunks.forEach(chunk=>{
+      const nm=chunk.match(/^([1-5])\.?\s+/);
+      if(nm){
+        out+=`<div class="step-row"><div class="snum">${nm[1]}</div><div class="sbody">${chunk.replace(nm[0],'').replace(/\n/g,'<br>')}</div></div>`;
+      } else {
+        out+=`<div style="font-family:var(--fb);font-size:15px;color:var(--tm);line-height:1.7;margin-bottom:8px;">${chunk.replace(/\n/g,'<br>')}</div>`;
+      }
+    });
+    return out||h.replace(/\n/g,'<br>');
+  }
+
+  // Orgs — item cards
+  if(hdr.toUpperCase().includes('GROUPS AND PEOPLE')){
+    const blocks=h.split(/\n{2,}|\n(?=\d+\.)|\n(?=<strong>)/g).filter(b=>b.trim());
+    if(blocks.length>3){
+      return blocks.map((blk,i)=>{
+        if(!blk.trim()) return '';
+        const nm=blk.replace(/^\d+\.\s*/,'').match(/^<strong>([^<]+)<\/strong>/);
+        const orgName=nm?nm[1]:'Organization';
+        const clean=blk.replace(/^\d+\.\s*/,'').replace(/\n/g,'<br>');
+        const oid='org'+i+Date.now();
+        return `<div class="item-card" onclick="openModal('${oid}','${orgName.replace(/'/g,"\\'")}','org')">
+          <div class="item-name">${orgName}</div>
+          <div class="item-contact">${clean.replace(nm?.[0]||'','').replace(/^<br>/,'')}</div>
+          <div class="item-tap">Tap to learn more about how they can help →</div>
+        </div>`;
+      }).join('');
+    }
+    return h.replace(/\n/g,'<br>');
+  }
+
+  // Rights
+  if(hdr.toUpperCase().includes('YOUR RIGHTS')){
+    const blocks=h.split(/\n{2,}|\n(?=\d+\.)|\n(?=<strong>)/g).filter(b=>b.trim());
+    if(blocks.length>2){
+      return blocks.map(blk=>{
+        if(!blk.trim()) return '';
+        const clean=blk.replace(/^\d+\.\s*/,'').replace(/\n/g,'<br>');
+        const nm=clean.match(/^<strong>([^<]+)<\/strong>/);
+        return `<div class="rpill">
+          ${nm?`<div class="rpill-name">${nm[1]}</div><div class="rpill-body">${clean.replace(nm[0],'').replace(/^<br>/,'')}</div>`:`<div class="rpill-body">${clean}</div>`}
+        </div>`;
+      }).join('');
+    }
+    return h.replace(/\n/g,'<br>');
+  }
+
+  // Scripts
+  if(hdr.toUpperCase().includes('WORDS TO USE')){
+    let out=h.replace(/\n/g,'<br>');
+    out=out.replace(/(Script \d[^<]*)/gi,'<h4 style="font-family:var(--fh);font-size:14px;color:var(--gd);margin:12px 0 6px;">$1</h4>');
+    return out;
+  }
+
+  return h.replace(/\n/g,'<br>');
+}
+
+// ══════════════════════════════════════════════
+// MODAL — expanded official/org profile
+// ══════════════════════════════════════════════
+function openModal(id, name, type){
+  const concern=S.sub||S.main||S.other;
+  const rl=lang==='es'?'Spanish':'English';
+  const modal=document.getElementById('modal');
+  const content=document.getElementById('modal-content');
+  content.innerHTML=`<div class="modal-title">${name}</div><div class="modal-role">${type==='official'?'Your Elected Representative':'Local Organization'}</div>
+    <div style="text-align:center;padding:20px;font-family:var(--fb);color:var(--tl);">Loading full profile<span class="ldots"></span></div>`;
+  modal.classList.add('open');
+
+  const prompt=type==='official'
+    ? `In ${rl}, write a plain-language profile of ${name} as an elected official in the Prince George's County / Maryland / DC area related to the issue: ${concern}. Write at a 5th grade reading level. Use short sentences and simple words. Include:
+1. Who they are — their full title explained simply, when they were elected, background
+2. What they have done about ${concern} — recent votes, bills, statements (be specific and honest — if you don't know for sure, say so)
+3. How to reach them — phone, email, office address, website, social media
+4. Upcoming events — any town halls, meetings, or office hours where a resident could meet them (if unsure, say "check their website")
+5. A ready-to-use call script (under 60 seconds) specifically about ${concern}
+6. A ready-to-use email (with subject line) specifically about ${concern}
+Keep it warm, helpful, and specific.`
+    : `In ${rl}, write a plain-language profile of ${name} as a community organization in the Prince George's County / Maryland / DC area that helps with: ${concern}. Write at a 5th grade reading level. Use short sentences and simple words. Include:
+1. What this group does — explained simply, like you are telling a friend
+2. Who they help — what kind of person should call them
+3. How to get help — exact steps to contact them or walk in (phone, address, hours, website)
+4. What to say when you contact them — a simple script for calling or walking in
+5. Any events, workshops, or meetings that are open to the public
+6. Whether they serve undocumented immigrants or people with no insurance (if relevant)
+Be specific, warm, and accurate. If you're unsure about any detail, say so clearly.`;
+
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',headers:{'Content-Type':'application/json','x-api-key':'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','anthropic-version':'2023-06-01'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+  }).then(r=>r.json()).then(d=>{
+    const txt=d.content.map(i=>i.text||'').join('');
+    content.innerHTML=`
+      <div class="modal-title">${name}</div>
+      <div class="modal-role">${type==='official'?'Your Elected Representative':'Local Organization'}</div>
+      <div class="modal-body">${txt.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>`;
+  }).catch(()=>{
+    content.innerHTML=`<div class="modal-title">${name}</div><div class="modal-body">Could not load profile. Please check your connection and try again.</div>`;
+  });
+}
+
+function closeModal(e){
+  if(!e||e.target===document.getElementById('modal')||e.target.classList.contains('modal-close')){
+    document.getElementById('modal').classList.remove('open');
+  }
+}
+
+// ══════════════════════════════════════════════
+// COALITION
+// ══════════════════════════════════════════════
+function renderCoal(){
+  const concern=S.sub||S.main||S.other;
+  const counts={'20783':52,'20782':31,'20784':28,'20781':19};
+  const cnt=counts[S.zip]||Math.floor(Math.random()*20)+8;
+  const inES=lang==='es';
+  document.getElementById('coal-ct').textContent=`${cnt} ${inES?'personas en':'people in'} ${S.zip} ${inES?'comparten esta preocupación':'share this concern'}`;
+  document.getElementById('coal-t').textContent=inES?'🤝 Únete Con Tus Vecinos':'🤝 Join Forces With Your Neighbors';
+  document.getElementById('coal-b').textContent=inES
+    ?'Cuando los vecinos se organizan juntos, logran resultados. Un pequeño grupo que se presenta a una reunión local es mucho más poderoso que una persona que llama sola.'
+    :'When neighbors organize together, they get results. A small group showing up to a local meeting is much more powerful than one person calling alone.';
+  document.getElementById('coal-lnk').textContent=inES
+    ?'→ Obtén una guía paso a paso para organizar tu vecindario'
+    :'→ Get a step-by-step guide to organizing your neighborhood';
+}
+
+async function showCoal(){
+  // Load content first, then navigate
+  const prevS = curScr;
+  const concern=S.sub||S.main||S.other;
+  go(7);
+  const body=document.getElementById('coal-dbody');
+  const rl=lang==='es'?'Spanish':'English';
+  body.innerHTML=`<div style="text-align:center;padding:30px;font-family:var(--fb);color:var(--tl);">${lang==='es'?'Creando tu guía':'Building your guide'}<span class="ldots"></span></div>`;
+
+  const prompt=`In ${rl}, write a plain-language coalition-building guide for someone in zip ${S.zip} (Langley Park / Chillum / Hyattsville area, Prince George's County, Maryland) who wants to organize their neighbors around: ${concern}. Write at a 5th–6th grade reading level. Short sentences. Simple words. Use these bold headers:
+
+**Why Your Neighborhood Is Ready**
+2–3 sentences about why ${S.zip} — the people who live there, how dense it is, its history of community action — makes it a good place to organize around ${concern}.
+
+**Step by Step: Your First 30 Days**
+Number steps 1 through 7. Each step must be specific to ${S.zip}. Name real places, real organizations, and real ways to find allies. Include: where to find your first 5 allies (specific spots in this neighborhood), where to hold a first meeting (name real venues — churches, Crossroads Farmers Market, Langley Park Community Center, etc.), what to say to people you approach, how to build a simple contact list, and how to connect with existing organizations.
+
+**The Best Places to Meet People in Your Neighborhood**
+List 5–6 specific real places in or near ${S.zip} where community members already gather. For each: the name, address, why it is a good place to organize, and who to talk to. Include places like the Crossroads Farmers Market (University Blvd E, Takoma Park), Langley Park Community Center (1500 Merrimac Dr), CASA de Maryland (8151 15th Ave), local churches, and neighborhood businesses.
+
+**Your First Meeting — A 60-Minute Plan**
+A complete meeting agenda with times. Activities that work with people who speak different languages. An icebreaker that is fun and simple.
+
+**Your First Action Together**
+One specific, powerful, achievable thing the group can do in their first 60 days — something visible and doable in Prince George's County around ${concern}.
+
+**A Flyer You Can Print Right Now**
+Write a short bilingual (English and Spanish) flyer — under 120 words — that this person can print and post in ${S.zip} to recruit neighbors. Include a clear ask and a way to respond (like "text your name to [their number]").`;
+
+  try {
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json','x-api-key':'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','anthropic-version':'2023-06-01'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+    });
+    const d=await r.json();
+    const txt=d.content.map(i=>i.text||'').join('');
+    body.innerHTML=renderCoalDeep(txt);
+  } catch(e){
+    body.innerHTML=`<div class="sec-card"><div class="sec-body on"><div style="font-family:var(--fb);font-size:15px;padding:10px;">Could not load coalition guide. Please check your connection.</div></div></div>`;
+  }
+}
+
+function renderCoalDeep(txt){
+  let html='';
+  const parts=txt.split(/\*\*([^*\n]+)\*\*/g);
+  for(let i=1;i<parts.length;i+=2){
+    const hdr=parts[i].trim();
+    const cont=(parts[i+1]||'').trim();
+    const cid='cd'+i;
+    let body=cont.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+    // Numbered steps
+    body=body.replace(/(\d+)\.\s+/g,(m,n)=>
+      `</div><div class="coal-step"><div class="coal-step-num">${n}</div><div style="font-family:var(--fb);font-size:14px;color:var(--tm);line-height:1.65;">`
+    ).replace('</div>','')+`</div></div>`;
+    if(body.startsWith('</div>')) body=body.slice(6);
+    body=body.replace(/\n/g,'<br>');
+    html+=`<div class="sec-card">
+      <div class="sec-hdr open" id="${cid}-hdr" onclick="tog('${cid}')">
+        <div class="sec-title"><span class="sec-ico">🌱</span><span>${hdr}</span></div>
+        <span class="chev open" id="${cid}-chev">▼</span>
+      </div>
+      <div class="sec-body open" id="${cid}-body">
+        <div style="font-family:var(--fb);font-size:14px;color:var(--tm);line-height:1.7;">${body}</div>
+      </div></div>`;
+  }
+  return html||`<div class="sec-card"><div class="sec-body on"><div style="font-family:var(--fb);font-size:14px;line-height:1.7;">${txt.replace(/\n/g,'<br>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')}</div></div></div>`;
+}
+
+// ══════════════════════════════════════════════
+// REPORT OPTIONS
+// ══════════════════════════════════════════════
+function renderRepOpts(){
+  const opts=lang==='es'?[
+    ['📞','Llamé o escribí a alguien del gobierno'],
+    ['🏛️','Fui a una reunión pública'],
+    ['💬','Hablé con un vecino sobre este tema'],
+    ['🤝','Me contacté con un grupo u organización'],
+    ['👥','Encontré un vecino para empezar una coalición'],
+    ['📲','Compartí este plan con alguien más'],
+    ['✊','Hice algo diferente']
+  ]:[
+    ['📞','I called or wrote to a government official'],
+    ['🏛️','I went to a public meeting'],
+    ['💬','I talked to a neighbor about this issue'],
+    ['🤝','I connected with a local group or organization'],
+    ['👥','I found a neighbor to start building a team'],
+    ['📲','I shared this plan with someone else'],
+    ['✊','I took a different action']
+  ];
+  const c=document.getElementById('rb-opts');
+  c.innerHTML=opts.map(([ico,txt])=>
+    `<button class="ropt" onclick="pickRep(this,'${txt.replace(/'/g,"\\'")}')"><span style="margin-right:8px;font-size:16px;">${ico}</span>${txt}</button>`
+  ).join('');
+}
+
+function pickRep(btn,action){
+  document.querySelectorAll('.ropt').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  selReport=action;
+  document.getElementById('claim-btn').style.display='block';
+  btn.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function claimB(){
+  S.reportAction=selReport;
+  // TODO: POST to Airtable here — plug in your Airtable API key and base ID
+  go(8);
+}
+
+// ══════════════════════════════════════════════
+// TOGGLE
+// ══════════════════════════════════════════════
+function tog(id){
+  const body=document.getElementById(id+'-body');
+  const hdr=document.getElementById(id+'-hdr');
+  const chev=document.getElementById(id+'-chev');
+  if(!body) return;
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);
+  if(hdr) hdr.classList.toggle('open',!open);
+  if(chev) chev.classList.toggle('open',!open);
+}
+
+// ══════════════════════════════════════════════
+// FALLBACK
+// ══════════════════════════════════════════════
+function fallback(){
+  const concern=S.sub||S.main||S.other||'your issue';
+  return `**THE PEOPLE WHO WORK FOR YOU**
+
+**Your U.S. Senator — Chris Van Hollen**
+This is one of two senators who represent all of Maryland in Washington DC. He helps make national laws and controls federal money that comes to your community.
+📞 202-224-4654 | 🌐 vanhollen.senate.gov | ✉️ vanhollen.senate.gov/contact
+
+**Your U.S. Senator — Angela Alsobrooks**
+Maryland's newest senator. She was the Prince George's County Executive before this job, so she knows your community well.
+📞 202-224-4654 | 🌐 alsobrooks.senate.gov
+
+**Your U.S. Representative**
+This person represents your specific neighborhood in Washington DC. Enter your address at 🌐 house.gov/representatives/find to find their name and number.
+
+**Your Maryland State Senator & Delegate**
+These people work in Annapolis (Maryland's capital) and make state laws. Find yours at 🌐 mgaleg.maryland.gov — enter your address.
+
+**Prince George's County Executive — Aisha Braveboy**
+She runs county government and controls the county budget.
+📞 301-952-4131 | 🌐 princegeorgescountymd.gov
+
+**Your County Council Member**
+This is your most local elected official. They are easier to reach than senators and they care deeply about neighborhood issues.
+Find yours at 🌐 pgccouncil.us/districts
+
+**5 THINGS YOU CAN DO — STARTING TODAY**
+1. TODAY — Find your County Council member. Go to pgccouncil.us/districts right now. Save their phone number in your phone. This takes 3 minutes.
+2. THIS WEEK — Call your council member. Say: "Hi, my name is ${S.name||'a neighbor'} and I live in zip ${S.zip}. I'm concerned about ${concern}. Can someone follow up with me?" That call gets written down and counted.
+3. THIS MONTH — Go to a County Council meeting. They meet every Tuesday at 10am at 14741 Governor Oden Bowie Drive, Upper Marlboro, MD. Anyone can walk in and speak for 3 minutes. It is free. You do not need an appointment.
+4. IN 2 MONTHS — Call CASA de Maryland at 301-431-4185. They have organizers who work in your neighborhood and can connect you with others who care about the same things.
+5. IN 3 MONTHS — Bring one neighbor with you to a meeting. Two people showing up together sends a stronger message than one.
+
+**GROUPS AND PEOPLE WHO CAN HELP YOU**
+
+**CASA de Maryland**
+They help immigrants and low-income families with housing, worker rights, and civic action. They have staff who speak Spanish and work right in your neighborhood.
+📍 8151 15th Ave, Hyattsville | 📞 301-431-4185 | 🌐 wearecasa.org | Walk in Mon–Fri 9am–5pm
+
+**Prince George's County Legal Aid**
+Free legal help if you can't afford a lawyer. They help with housing, work problems, and family issues.
+📞 301-539-5340 | 🌐 pgclegal.org
+
+**Housing Initiative Partnership (HIP)**
+They help renters know their rights, stop evictions, and find affordable housing.
+📍 6525 Belcrest Rd, Hyattsville | 📞 301-699-3835 | 🌐 hiphousing.org
+
+**Prince George's County Dept. of Social Services**
+Government office that gives out benefits like food stamps, Medicaid, and emergency help.
+📍 805 Largo Rd, Upper Marlboro | 📞 301-909-6300
+
+**Crossroads Community Food Network**
+Free food, SNAP sign-up help, and community resources every Wednesday 10:30am–2:30pm.
+📍 University Blvd E, Takoma Park | 📞 301-615-3806 | 🌐 crossroadscommunityfoodnetwork.org
+
+**Maryland Legal Aid**
+Free legal help for people who can't afford a lawyer — statewide.
+📞 1-800-999-8904 | 🌐 mdlab.org
+
+**Langley Park Community Center**
+A safe, welcoming space for community meetings, programs, and resources.
+📍 1500 Merrimac Dr, Hyattsville | 📞 301-445-4508
+
+**First Baptist Church of Glenarden**
+One of the most active community organizations in Prince George's County. They run social services and community programs.
+📍 3600 Brightseat Rd, Landover | 📞 301-773-8500
+
+**YOUR RIGHTS — WHAT YOU ARE PROTECTED FROM**
+
+**The Right to Be at Government Meetings**
+You can go to any Prince George's County Council meeting and speak for 3 minutes. This is protected by Maryland's Open Meetings Act. You do not need to be a citizen. You do not need to speak perfect English. Meetings happen Tuesdays at 10am, 14741 Governor Oden Bowie Drive, Upper Marlboro.
+
+**The Right to See Government Records**
+Maryland's Public Information Act lets you ask for records, reports, and data from any government office. Most requests are free. They must respond within 30 days. Visit princegeorgescountymd.gov or call your agency directly.
+
+**The Right to Not Be Discriminated Against**
+Prince George's County's Human Relations Act says no one can treat you differently because of your race, where you're from, your language, your gender, your age, or your immigration status — in housing, jobs, or public services. If this happens, call the Human Relations Commission at 301-883-6170.
+
+**The Right to Get Government Help in Your Language**
+Under federal law (Title VI of the Civil Rights Act), any government office that gets federal money must help you in your language — for free. If an office refuses, you can file a complaint with the U.S. Department of Justice.
+
+**The Right to Organize and Speak Up**
+The First Amendment protects your right to organize your neighbors, sign petitions, and speak at public meetings. No official can stop you from doing these things peacefully.
+
+**WORDS TO USE — SCRIPTS READY TO GO**
+
+Script 1 — Phone Call (under 60 seconds):
+"Hi, my name is ${S.name||'[your name]'} and I live in zip code ${S.zip}. I'm calling because I'm worried about ${concern} in my neighborhood. This is affecting me and my family. Can you tell me what [official's name] is doing about this — and is there a meeting I can come to? My number is [your number]. Thank you."
+
+Script 2 — Email
+Subject: A Neighbor in ${S.zip} Needs Your Help With ${concern}
+"Dear [Official's Name], My name is ${S.name||'[your name]'} and I live in zip code ${S.zip}. I am writing because ${concern} is a serious problem in my neighborhood. [One sentence about how it affects you.] I am asking you to [one specific thing you want]. I would like to meet with you or come to a public meeting to talk about this. Please contact me at [your phone or email]. Thank you, ${S.name||'[your name]'}"
+
+Script 3 — Public Comment at a Government Meeting (3 minutes):
+These meetings happen Tuesdays at 10am, 14741 Governor Oden Bowie Drive, Upper Marlboro. Walk in. Sign up to speak when you arrive.
+"Good morning. My name is ${S.name||'[your name]'} and I live in zip ${S.zip}. I am here today because ${concern} is affecting my family and my neighbors. [One short story — 30 seconds.] We have tried to fix this by [what you tried]. We are asking this council to [specific action you want]. We will come back until this is fixed. Thank you."
+
+**YOUR PLAN: 30 DAYS, 60 DAYS, 90 DAYS**
+
+In your first 30 days, do three things: Find your County Council member and call them. Go to one government meeting. Contact one local organization from this list and introduce yourself.
+
+In 60 days, go deeper: Connect with an organization that is already working on ${concern}. Bring one neighbor to a meeting or event with you. Write or send one email to an elected official.
+
+In 90 days, build power: Speak at a public meeting. Help organize one community conversation — even just a few neighbors talking together counts. Set a goal: what do you want to see changed one year from now?`;
+}
+
+// ══════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════
+function restart(){
+  S={zip:'',name:'',age:'',gen:'',race:'',inc:'',hous:'',hl:'',civ:'',main:'',sub:'',other:'',dq:{},extra:'',ph:'',em:''};
+  selReport='';
+  document.querySelectorAll('input,select,textarea').forEach(el=>el.value='');
+  document.getElementById('s1nx').disabled=true;
+  document.getElementById('s2nx').disabled=true;
+  document.getElementById('subwrap').style.display='none';
+  document.getElementById('other-ta').style.display='none';
+  document.getElementById('res-body').innerHTML='';
+  document.getElementById('claim-btn').style.display='none';
+  buildGrid(); buildDQ('other'); go(0);
+}
+function showSave(){
+  // Build plain text summary for copy option
+  const concern = S.sub||S.main||S.other||'your issue';
+  const name = S.name ? S.name+"'s" : 'Your';
+  const summary = [
+    "=== "+name+" CIVIC ACTION PLAN ===",
+    "Issue: "+concern,
+    "Zip: "+S.zip,
+    "",
+    "YOUR OFFICIALS:",
+    "- PG County Executive: Aisha Braveboy | 301-952-4131",
+    "- County Council: pgccouncil.us/districts",
+    "- MD Legislature: mgaleg.maryland.gov",
+    "",
+    "KEY CONTACTS:",
+    "- CASA de Maryland: 301-431-4185",
+    "- PG Legal Aid: 301-539-5340",
+    "- Housing Initiative Partnership: 301-699-3835",
+    "",
+    "FIRST STEP: Call your County Council member today.",
+    "Find them at pgccouncil.us/districts",
+    "",
+    "Generated by I Am the Root | iamtheroot.netlify.app"
+  ].join("\n");
+  const box = document.getElementById('save-summary-box');
+  if(box) box.textContent = summary;
+  go(9);
+}
+
+function savePhone(){
+  const ph = document.getElementById('save-phone').value.trim();
+  if(!ph || ph.replace(/\D/g,'').length < 10){
+    alert('Please enter a valid phone number.');
+    return;
+  }
+  // Store in state so you can see it in your Airtable later
+  S.savePhone = ph;
+  document.getElementById('save-phone-confirm').style.display='block';
+  document.getElementById('save-phone').disabled=true;
+  // TODO: When Airtable is connected, this number saves automatically
+  // For now: you will see it in your follow-up dashboard
+}
+
+async function emailPlan(){
+  const email = document.getElementById('save-email').value.trim();
+  if(!email || !email.includes('@')){ alert('Please enter a valid email address.'); return; }
+  // In production: send via backend/Airtable
+  // For now show confirmation
+  document.getElementById('save-email-confirm').style.display='block';
+  document.getElementById('save-email').disabled=true;
+}
+
+function copySummary(){
+  const box = document.getElementById('save-summary-box');
+  if(!box) return;
+  navigator.clipboard.writeText(box.textContent).then(()=>{
+    document.getElementById('copy-confirm').style.display='block';
+  }).catch(()=>{
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = box.textContent;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    document.getElementById('copy-confirm').style.display='block';
+  });
+}
+
+// INIT
+buildGrid(); buildDQ('other');
+</script>
+</body>
+</html>
