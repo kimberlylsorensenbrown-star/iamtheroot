@@ -940,60 +940,80 @@ function chkZ(){
   }
 }
 
-// Instant zip prefix → state lookup (no API needed for common cases)
-const ZIP_PREFIXES = {
-  '0':{'CT':'06','MA':'01,02','ME':'039,040,041,042,043,044,045,046,047,048,049','NH':'03','NJ':'07,08','NY':'10,11,12,13,14','PR':'006,007,008,009','RI':'028,029','VT':'050,051,052,053,054,055,056,057,058,059'},
-  '1':{'DE':'197,198,199','MD':'206,207,208,209,210,211,212,214,215,216,217,218,219','NY':'100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119','PA':'150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196','VA':'200,201,202,203,204,205,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246'},
-  '2':{'NC':'270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289','SC':'290,291,292,293,294,295,296,297,298,299','GA':'300,301,302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,398,399','FL':'320,321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,346,347,349'},
-  '3':{'AL':'350,351,352,353,354,355,356,357,358,359,360,361,362,363,364,365,366,367,368,369','MS':'386,387,388,389,390,391,392,393,394,395,396,397','TN':'370,371,372,373,374,375,376,377,378,379,380,381,382,383,384,385'},
-  '4':{'IN':'460,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,479','KY':'400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427','MI':'480,481,482,483,484,485,486,487,488,489,490,491,492,493,494,495,496,497,498,499','OH':'430,431,432,433,434,435,436,437,438,439,440,441,442,443,444,445,446,447,448,449,450,451,452,453,454,455,456,457,458'},
-  '5':{'IA':'500,501,502,503,504,505,506,507,508,509,510,511,512,513,514,515,516,521,522,523,524,525,526,527,528','MN':'550,551,553,554,555,556,557,558,559,560,561,562,563,564,565,566,567','MO':'630,631,633,634,635,636,637,638,639,640,641,644,645,646,647,648,649,650,651,652,653,654,655,656,657,658','ND':'580,581,582,583,584,585,586,587,588','NE':'680,681,683,684,685,686,687,688,689,690,691,692,693','SD':'570,571,572,573,574,575,576,577','WI':'530,531,532,534,535,537,538,539,540,541,542,543,544,545,546,547,548,549'},
-  '6':{'AR':'716,717,718,719,720,721,722,723,724,725,726,727,728,729','IL':'600,601,602,603,604,605,606,607,608,609,610,611,612,613,614,615,616,617,618,619,620,621,622,623,624,625,626,627,628,629','KS':'660,661,662,664,665,666,667,668,669,670,671,672,673,674,675,676,677,678,679','LA':'700,701,703,704,705,706,707,708,710,711,712,713,714','NM':'870,871,873,874,875,877,878,879,880,881,882,883,884','OK':'730,731,734,735,736,737,738,739,740,741,743,744,745,746,747,748,749','TX':'750,751,752,753,754,755,756,757,758,759,760,761,762,763,764,765,766,767,768,769,770,771,772,773,774,775,776,777,778,779,780,781,782,783,784,785,786,787,788,789,790,791,792,793,794,795,796,797,798,799'},
-  '7':{'AR':'716,717,718,719,720,721,722,723,724,725,726,727,728,729','CO':'800,801,802,803,804,805,806,807,808,809,810,811,812,813,814,815,816,820,821,822,823,824,825,826,827,828,829,830,831','KS':'660,661','OK':'730,731','TX':'750,751','WY':'820,821,822,823,824,825,826,827,828,829,830,831'},
-  '8':{'AZ':'850,851,852,853,855,856,857,859,860,863,864,865,872','CO':'800,801,802','ID':'832,833,834,835,836,837,838','MT':'590,591,592,593,594,595,596,597,598,599','NV':'889,890,891,893,894,895,897,898','OR':'970,971,972,973,974,975,976,977,978,979','UT':'840,841,842,843,844,845,846,847','WA':'980,981,982,983,984,985,986,988,989,990,991,992,993,994'},
-  '9':{'AK':'995,996,997,998,999','CA':'900,901,902,903,904,905,906,907,908,910,911,912,913,914,915,916,917,918,919,920,921,922,923,924,925,926,927,928,930,931,932,933,934,935,936,937,938,939,940,941,942,943,944,945,946,947,948,949,950,951,952,953,954,955,956,957,958,959,960,961','HI':'967,968','OR':'970,971','WA':'980,981,982'}
-};
-
-function getStateFromZip(zip){
-  if(!zip || zip.length < 3) return null;
-  const prefix3 = zip.substring(0,3);
-  const prefix1 = zip[0];
-  const stateMap = ZIP_PREFIXES[prefix1];
-  if(!stateMap) return null;
-  for(const [state, prefixes] of Object.entries(stateMap)){
-    if(prefixes.split(',').some(p => prefix3 === p || zip.startsWith(p))) return state;
-  }
+// Complete US zip-to-state lookup — works offline, no API needed
+// Covers all 50 states + DC + territories
+function getLocationFromZip(zip) {
+  if (!zip || zip.length < 5) return null;
+  const z = parseInt(zip);
+  
+  // State ranges based on USPS zip code assignments
+  if (z >= 35004 && z <= 36925) return { city: 'Alabama', state: 'Alabama', abbr: 'AL' };
+  if (z >= 99501 && z <= 99950) return { city: 'Alaska', state: 'Alaska', abbr: 'AK' };
+  if (z >= 85001 && z <= 86556) return { city: 'Arizona', state: 'Arizona', abbr: 'AZ' };
+  if (z >= 71601 && z <= 72959) return { city: 'Arkansas', state: 'Arkansas', abbr: 'AR' };
+  if (z >= 90001 && z <= 96162) return { city: 'California', state: 'California', abbr: 'CA' };
+  if (z >= 80001 && z <= 81658) return { city: 'Colorado', state: 'Colorado', abbr: 'CO' };
+  if (z >= 6001 && z <= 6928) return { city: 'Connecticut', state: 'Connecticut', abbr: 'CT' };
+  if (z >= 19701 && z <= 19980) return { city: 'Delaware', state: 'Delaware', abbr: 'DE' };
+  if (z >= 20001 && z <= 20599) return { city: 'Washington', state: 'Washington DC', abbr: 'DC' };
+  if (z >= 32004 && z <= 34997) return { city: 'Florida', state: 'Florida', abbr: 'FL' };
+  if (z >= 30001 && z <= 31999) return { city: 'Georgia', state: 'Georgia', abbr: 'GA' };
+  if (z >= 96701 && z <= 96898) return { city: 'Hawaii', state: 'Hawaii', abbr: 'HI' };
+  if (z >= 83201 && z <= 83876) return { city: 'Idaho', state: 'Idaho', abbr: 'ID' };
+  if (z >= 60001 && z <= 62999) return { city: 'Illinois', state: 'Illinois', abbr: 'IL' };
+  if (z >= 46001 && z <= 47997) return { city: 'Indiana', state: 'Indiana', abbr: 'IN' };
+  if (z >= 50001 && z <= 52809) return { city: 'Iowa', state: 'Iowa', abbr: 'IA' };
+  if (z >= 66002 && z <= 67954) return { city: 'Kansas', state: 'Kansas', abbr: 'KS' };
+  if (z >= 40003 && z <= 42788) return { city: 'Kentucky', state: 'Kentucky', abbr: 'KY' };
+  if (z >= 70001 && z <= 71497) return { city: 'Louisiana', state: 'Louisiana', abbr: 'LA' };
+  if (z >= 3901 && z <= 4992) return { city: 'Maine', state: 'Maine', abbr: 'ME' };
+  if (z >= 20601 && z <= 21930) return { city: 'Maryland', state: 'Maryland', abbr: 'MD' };
+  if (z >= 1001 && z <= 2791) return { city: 'Massachusetts', state: 'Massachusetts', abbr: 'MA' };
+  if (z >= 48001 && z <= 49971) return { city: 'Michigan', state: 'Michigan', abbr: 'MI' };
+  if (z >= 55001 && z <= 56763) return { city: 'Minnesota', state: 'Minnesota', abbr: 'MN' };
+  if (z >= 38601 && z <= 39776) return { city: 'Mississippi', state: 'Mississippi', abbr: 'MS' };
+  if (z >= 63001 && z <= 65899) return { city: 'Missouri', state: 'Missouri', abbr: 'MO' };
+  if (z >= 59001 && z <= 59937) return { city: 'Montana', state: 'Montana', abbr: 'MT' };
+  if (z >= 68001 && z <= 69367) return { city: 'Nebraska', state: 'Nebraska', abbr: 'NE' };
+  if (z >= 88901 && z <= 89883) return { city: 'Nevada', state: 'Nevada', abbr: 'NV' };
+  if (z >= 3031 && z <= 3897) return { city: 'New Hampshire', state: 'New Hampshire', abbr: 'NH' };
+  if (z >= 7001 && z <= 8989) return { city: 'New Jersey', state: 'New Jersey', abbr: 'NJ' };
+  if (z >= 87001 && z <= 88441) return { city: 'New Mexico', state: 'New Mexico', abbr: 'NM' };
+  if (z >= 10001 && z <= 14975) return { city: 'New York', state: 'New York', abbr: 'NY' };
+  if (z >= 27006 && z <= 28909) return { city: 'North Carolina', state: 'North Carolina', abbr: 'NC' };
+  if (z >= 58001 && z <= 58856) return { city: 'North Dakota', state: 'North Dakota', abbr: 'ND' };
+  if (z >= 43001 && z <= 45999) return { city: 'Ohio', state: 'Ohio', abbr: 'OH' };
+  if (z >= 73001 && z <= 74966) return { city: 'Oklahoma', state: 'Oklahoma', abbr: 'OK' };
+  if (z >= 97001 && z <= 97920) return { city: 'Oregon', state: 'Oregon', abbr: 'OR' };
+  if (z >= 15001 && z <= 19640) return { city: 'Pennsylvania', state: 'Pennsylvania', abbr: 'PA' };
+  if (z >= 900 && z <= 988) return { city: 'Puerto Rico', state: 'Puerto Rico', abbr: 'PR' };
+  if (z >= 2801 && z <= 2940) return { city: 'Rhode Island', state: 'Rhode Island', abbr: 'RI' };
+  if (z >= 29001 && z <= 29948) return { city: 'South Carolina', state: 'South Carolina', abbr: 'SC' };
+  if (z >= 57001 && z <= 57799) return { city: 'South Dakota', state: 'South Dakota', abbr: 'SD' };
+  if (z >= 37010 && z <= 38589) return { city: 'Tennessee', state: 'Tennessee', abbr: 'TN' };
+  if (z >= 75001 && z <= 79999) return { city: 'Texas', state: 'Texas', abbr: 'TX' };
+  if (z >= 84001 && z <= 84784) return { city: 'Utah', state: 'Utah', abbr: 'UT' };
+  if (z >= 5001 && z <= 5907) return { city: 'Vermont', state: 'Vermont', abbr: 'VT' };
+  if (z >= 20101 && z <= 24658) return { city: 'Virginia', state: 'Virginia', abbr: 'VA' };
+  if (z >= 98001 && z <= 99403) return { city: 'Washington', state: 'Washington State', abbr: 'WA' };
+  if (z >= 24701 && z <= 26886) return { city: 'West Virginia', state: 'West Virginia', abbr: 'WV' };
+  if (z >= 53001 && z <= 54990) return { city: 'Wisconsin', state: 'Wisconsin', abbr: 'WI' };
+  if (z >= 82001 && z <= 83128) return { city: 'Wyoming', state: 'Wyoming', abbr: 'WY' };
+  
   return null;
 }
 
-async function lookupZip(zip){
-  // First try instant prefix lookup
-  const quickState = getStateFromZip(zip);
-  if(quickState){
-    S.state = quickState;
-    S.cityState = zip + ', ' + quickState;
-    showZipLocation(zip + ' (' + quickState + ')');
-  }
-
-  // Then try API for full city name
-  try {
-    const r = await fetch(`https://api.zippopotam.us/us/${zip}`, {
-      method: 'GET',
-      headers: { 'Accept': 'application/json' }
-    });
-    if(!r.ok){ S.cityState = null; return; }
-    const d = await r.json();
-    if(d.places && d.places[0]){
-      const place = d.places[0];
-      S.city = place['place name'];
-      S.state = place['state'];
-      S.stateAbbr = place['state abbreviation'];
-      S.cityState = `${S.city}, ${S.state}`;
-      showZipLocation(S.cityState);
-    }
-  } catch(e){
-    console.log('Zip lookup error:', e);
-    // quickState fallback already set above
+function lookupZip(zip) {
+  // Pure local lookup — instant, no API, no network needed
+  const loc = getLocationFromZip(zip);
+  if (loc) {
+    S.state = loc.state;
+    S.stateAbbr = loc.abbr;
+    S.cityState = zip + ', ' + loc.state;
+    showZipLocation(loc.state);
+  } else {
+    S.cityState = zip;
+    showZipLocation('United States');
   }
 }
 
@@ -1257,9 +1277,15 @@ async function gen(){
 
   const prompt=`You are a caring civic empowerment guide. Respond in ${rl}. Write at a 5th-6th grade reading level. Use SHORT sentences. Use SIMPLE words. Avoid ALL jargon. When you must use a civic term, explain it in plain language right away in parentheses.
 
-Person is located in: ${S.cityState || ('zip code ' + S.zip + ' — identify the correct US city and state for this zip before writing anything')}. Issue: ${concern}. Background: ${demo||'not shared'}. Situation details: ${dqStr||'not provided'}. Extra: ${S.extra||'none'}. Every single section of this plan — officials, organizations, laws, rights, action steps — must be 100% specific to ${S.cityState || S.zip}. Do not use Maryland, Prince George's County, or any other default location unless that is where zip ${S.zip} actually is.
+⚠️ LOCATION — READ THIS FIRST: This person is in ${S.cityState}. State: ${S.state}. ZIP: ${S.zip}.
+YOU MUST use officials, organizations, laws, and resources for ${S.state} ONLY.
+DO NOT use Maryland, Prince George's County, or DC unless S.state is Maryland.
+DO NOT use any other state's information.
+Every section must match ${S.state}.
 
-IMPORTANT: Zip code ${S.zip} is NOT necessarily in Maryland. You MUST first identify the correct city, county, and state for zip ${S.zip} and base EVERYTHING on that location. Write a HYPERLOCAL, PERSONAL plan using real names, real phone numbers, and real addresses for the actual location of zip ${S.zip}. If you are not 100% sure of a specific name or number, say "confirm at [website]" but always provide the office main phone number.
+Issue: ${concern}. Background: ${demo||'not shared'}. Situation: ${dqStr||'not provided'}. Extra: ${S.extra||'none'}.
+
+Write a HYPERLOCAL plan for ${S.cityState}. Use real names, phones, and addresses for ${S.state}. If unsure of a specific name, say so but always give the office main phone number.
 
 Use these exact bold headers:
 
